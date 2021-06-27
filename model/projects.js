@@ -1,22 +1,22 @@
-const Contact = require('./schema/project');
+const Project = require('./schemas/project');
 
 const getAllPojects = async () => {
-  const results = await Contact.find({});
+  const results = await Project.find({});
   return results;
 };
 
 const getProjectById = async (projectId) => {
-  const result = await Contact.findOne({ _id: projectId });
+  const result = await Project.findOne({ _id: projectId });
   return result;
 };
 
-const addProject = async (body) => {
-  const result = await Contact.create(body);
+const createProject = async (body) => {
+  const result = await Project.create(body);
   return result;
 };
 
 const updateProject = async (projectId, body) => {
-  const result = await Contact.findOneAndUpdate(
+  const result = await Project.findOneAndUpdate(
     {
       _id: projectId,
     },
@@ -27,14 +27,14 @@ const updateProject = async (projectId, body) => {
 };
 
 const removeProject = async (projectId) => {
-  const result = await Contact.findByIdAndRemove({ _id: projectId });
+  const result = await Project.findByIdAndRemove({ _id: projectId });
   return result;
 };
 
 module.exports = {
   getAllPojects,
   getProjectById,
-  addProject,
+  createProject,
   updateProject,
   removeProject,
 };

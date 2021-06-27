@@ -1,27 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getContactsList,
-  getContactById,
-  addContact,
-  updateContact,
-  updateStatusContact,
-  removeContact,
-} = require('../../model/index');
-const {
-  validateCreateContact,
-  validateUpdateContact,
-  validateUpdateStatusContact,
-} = require('./validation');
+  getAllPojects,
+  getProjectById,
+  createProject,
+  updateProject,
+  removeProject,
+} = require('../../model/projects');
+// const {
+//   validateCreateContact,
+//   validateUpdateContact,
+// } = require('./validation');
 
 router.get('/', async (_req, res, next) => {
   try {
-    const contacts = await getContactsList();
+    const projects = await getAllPojects();
     return res.status(200).json({
       status: 'success',
       code: 200,
       data: {
-        contacts,
+        projects,
       },
     });
   } catch (err) {
@@ -29,13 +27,13 @@ router.get('/', async (_req, res, next) => {
   }
 });
 
-router.get('/:contactId', async (req, res, next) => {
+router.get('/:projectId', async (req, res, next) => {
   try {
-    const contactWithId = await getContactById(req.params.contactId);
-    if (contactWithId) {
+    const projectWithId = await getProjectById(req.params.projectId);
+    if (projectWithId) {
       return res
         .status(200)
-        .json({ status: 'success', code: 200, data: { contactWithId } });
+        .json({ status: 'success', code: 200, data: { projectWithId } });
     }
     return res
       .status(404)
@@ -45,49 +43,32 @@ router.get('/:contactId', async (req, res, next) => {
   }
 });
 
-router.post('/', validateCreateContact, async (req, res, next) => {
-  try {
-    const contact = await addContact(req.body);
-    return res
-      .status(201)
-      .json({ status: 'success', code: 201, data: { contact } });
-  } catch (err) {
-    if (err.name === 'ValidationError') {
-      err.status = 400;
-    }
-    next(err);
-  }
-});
-
-router.patch('/:contactId', validateUpdateContact, async (req, res, next) => {
-  try {
-    const contactWithId = await updateContact(req.params.contactId, req.body);
-    if (contactWithId) {
+router.post(
+  '/',
+  /* validateCreateContact */ async (req, res, next) => {
+    try {
+      const project = await createProject(req.body);
       return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { contactWithId } });
+        .status(201)
+        .json({ status: 'success', code: 201, data: { project } });
+    } catch (err) {
+      if (err.name === 'ValidationError') {
+        err.status = 400;
+      }
+      next(err);
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 router.patch(
-  '/:contactId/favorite',
-  validateUpdateStatusContact,
-  async (req, res, next) => {
+  '/:projectId',
+  /*validateUpdateContact*/ async (req, res, next) => {
     try {
-      const contactWithId = await updateStatusContact(
-        req.params.contactId,
-        req.body
-      );
-      if (contactWithId) {
+      const projectWithId = await updateProject(req.params.projectId, req.body);
+      if (projectWithId) {
         return res
           .status(200)
-          .json({ status: 'success', code: 200, data: contactWithId });
+          .json({ status: 'success', code: 200, data: { projectWithId } });
       }
       return res
         .status(404)
@@ -98,13 +79,13 @@ router.patch(
   }
 );
 
-router.delete('/:contactId', async (req, res, next) => {
+router.delete('/:projectId', async (req, res, next) => {
   try {
-    const contactWithId = await removeContact(req.params.contactId);
-    if (contactWithId) {
+    const projectWithId = await removeProject(req.params.projectId);
+    if (projectWithId) {
       return res
         .status(200)
-        .json({ status: 'success', code: 200, data: { contactWithId } });
+        .json({ status: 'success', code: 200, data: { projectWithId } });
     }
     return res
       .status(404)
