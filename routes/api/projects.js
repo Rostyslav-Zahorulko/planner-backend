@@ -7,10 +7,10 @@ const {
   updateProject,
   removeProject,
 } = require('../../model/projects');
-// const {
-//   validateCreateContact,
-//   validateUpdateContact,
-// } = require('./validation');
+const {
+  validateCreateProject,
+  validateUpdateProject,
+} = require('./validation');
 
 router.get('/', async (_req, res, next) => {
   try {
@@ -43,41 +43,35 @@ router.get('/:projectId', async (req, res, next) => {
   }
 });
 
-router.post(
-  '/',
-  /* validateCreateContact */ async (req, res, next) => {
-    try {
-      const project = await createProject(req.body);
-      return res
-        .status(201)
-        .json({ status: 'success', code: 201, data: { project } });
-    } catch (err) {
-      if (err.name === 'ValidationError') {
-        err.status = 400;
-      }
-      next(err);
+router.post('/', validateCreateProject, async (req, res, next) => {
+  try {
+    const project = await createProject(req.body);
+    return res
+      .status(201)
+      .json({ status: 'success', code: 201, data: { project } });
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      err.status = 400;
     }
+    next(err);
   }
-);
+});
 
-router.patch(
-  '/:projectId',
-  /*validateUpdateContact*/ async (req, res, next) => {
-    try {
-      const projectWithId = await updateProject(req.params.projectId, req.body);
-      if (projectWithId) {
-        return res
-          .status(200)
-          .json({ status: 'success', code: 200, data: { projectWithId } });
-      }
+router.patch('/:projectId', validateUpdateProject, async (req, res, next) => {
+  try {
+    const projectWithId = await updateProject(req.params.projectId, req.body);
+    if (projectWithId) {
       return res
-        .status(404)
-        .json({ status: 'error', code: 404, message: 'Not found' });
-    } catch (err) {
-      next(err);
+        .status(200)
+        .json({ status: 'success', code: 200, data: { projectWithId } });
     }
+    return res
+      .status(404)
+      .json({ status: 'error', code: 404, message: 'Not found' });
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.delete('/:projectId', async (req, res, next) => {
   try {
