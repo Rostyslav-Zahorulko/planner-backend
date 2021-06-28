@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 
-const projectsRouter = require('./routes/api/projects');
+const projectsRouter = require('./routes/api/projects/projects');
 
 const app = express();
 
