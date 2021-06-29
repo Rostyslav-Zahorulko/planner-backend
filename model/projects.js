@@ -34,7 +34,6 @@ const removeProject = async projectId => {
 // CREATING SPRINTS
 const createSprint = async (projectId, body) => {
   const currentSprints = await getProjectById(projectId);
-  // console.log(currentSprints.sprints);
   const result = await Project.findOneAndUpdate(
     {
       _id: projectId,
