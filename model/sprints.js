@@ -2,7 +2,7 @@ const Project = require('./schemas/project');
 
 // CREATING SPRINTS
 const createSprint = async (projectId, body) => {
-  const currentSprints = await getProjectById(projectId);
+  const currentSprints = await Project.findOne({ _id: projectId });
   const result = await Project.findOneAndUpdate(
     {
       _id: projectId,
