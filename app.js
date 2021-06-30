@@ -2,7 +2,8 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 
-const projectsRouter = require('./routes/api/projects');
+const sprintsRouter = require('./routes/api/sprints');
+const projectsRouter = require('./routes/api/projects/projects');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/projects', sprintsRouter);
 app.use('/api/projects', projectsRouter);
 
 app.use((_req, res) => {

@@ -5,12 +5,12 @@ const getAllPojects = async () => {
   return results;
 };
 
-const getProjectById = async (projectId) => {
+const getProjectById = async projectId => {
   const result = await Project.findOne({ _id: projectId });
   return result;
 };
 
-const createProject = async (body) => {
+const createProject = async body => {
   const result = await Project.create(body);
   return result;
 };
@@ -21,12 +21,12 @@ const updateProject = async (projectId, body) => {
       _id: projectId,
     },
     { ...body },
-    { new: true }
+    { new: true },
   );
   return result;
 };
 
-const removeProject = async (projectId) => {
+const removeProject = async projectId => {
   const result = await Project.findByIdAndRemove({ _id: projectId });
   return result;
 };

@@ -1,18 +1,12 @@
-const express = require('express');
-const router = express.Router();
 const {
   getAllPojects,
   getProjectById,
   createProject,
   updateProject,
   removeProject,
-} = require('../../model/projects');
-const {
-  validateCreateProject,
-  validateUpdateProject,
-} = require('./validation');
+} = require('../model/projects');
 
-router.get('/', async (_req, res, next) => {
+const getAll = async (_req, res, next) => {
   try {
     const projects = await getAllPojects();
     return res.status(200).json({
@@ -25,9 +19,9 @@ router.get('/', async (_req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+};
 
-router.get('/:projectId', async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
     const projectWithId = await getProjectById(req.params.projectId);
     if (projectWithId) {
@@ -41,9 +35,9 @@ router.get('/:projectId', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+};
 
-router.post('/', validateCreateProject, async (req, res, next) => {
+const create = async (req, res, next) => {
   try {
     const project = await createProject(req.body);
     return res
@@ -55,9 +49,9 @@ router.post('/', validateCreateProject, async (req, res, next) => {
     }
     next(err);
   }
-});
+};
 
-router.patch('/:projectId', validateUpdateProject, async (req, res, next) => {
+const update = async (req, res, next) => {
   try {
     const projectWithId = await updateProject(req.params.projectId, req.body);
     if (projectWithId) {
@@ -71,9 +65,9 @@ router.patch('/:projectId', validateUpdateProject, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+};
 
-router.delete('/:projectId', async (req, res, next) => {
+const remove = async (req, res, next) => {
   try {
     const projectWithId = await removeProject(req.params.projectId);
     if (projectWithId) {
@@ -87,6 +81,12 @@ router.delete('/:projectId', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getAll,
+  getById,
+  create,
+  update,
+  remove,
+};
