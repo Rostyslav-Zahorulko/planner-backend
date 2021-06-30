@@ -5,14 +5,22 @@ const {
   updateProject,
   removeProject,
 } = require('../model/projects');
+const HttpCode = require('../helpers/constants');
 
-const getAll = async (_req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
-    const projects = await getAllPojects();
-    return res.status(200).json({
+    const userId = req.user.id;
+    const { projects, total, limit, offset } = await getAllPojects(
+      userId,
+      req.query
+    );
+    return res.status(HttpCode.OK).json({
       status: 'success',
-      code: 200,
+      code: HttpCode.OK,
       data: {
+        total,
+        limit,
+        offset,
         projects,
       },
     });
@@ -23,15 +31,20 @@ const getAll = async (_req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const projectWithId = await getProjectById(req.params.projectId);
+    const userId = req.user.id;
+    const projectWithId = await getProjectById(userId, req.params.projectId);
     if (projectWithId) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { projectWithId } });
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: { projectWithId },
+      });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -39,13 +52,14 @@ const getById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const project = await createProject(req.body);
+    const userId = req.user.id;
+    const project = await createProject({ ...req.body, team: userId });
     return res
-      .status(201)
-      .json({ status: 'success', code: 201, data: { project } });
+      .status(HttpCode.CREATED)
+      .json({ status: 'success', code: HttpCode.CREATED, data: { project } });
   } catch (err) {
     if (err.name === 'ValidationError') {
-      err.status = 400;
+      err.status = HttpCode.BAD_REQUEST;
     }
     next(err);
   }
@@ -53,15 +67,24 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const projectWithId = await updateProject(req.params.projectId, req.body);
+    const userId = req.user.id;
+    const projectWithId = await updateProject(
+      userId,
+      req.params.projectId,
+      req.body
+    );
     if (projectWithId) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { projectWithId } });
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: { projectWithId },
+      });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -69,15 +92,20 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    const projectWithId = await removeProject(req.params.projectId);
+    const userId = req.user.id;
+    const projectWithId = await removeProject(userId, req.params.projectId);
     if (projectWithId) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { projectWithId } });
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: { projectWithId },
+      });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }

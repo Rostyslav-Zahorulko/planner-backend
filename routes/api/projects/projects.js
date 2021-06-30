@@ -7,19 +7,20 @@ const {
   update,
   remove,
 } = require('../../../controllers/projects');
+const guard = require('../../../helpers/guard');
 const {
   validateCreateProject,
   validateUpdateProject,
 } = require('./validation');
 
-router.get('/', getAll);
+router.get('/', guard, getAll);
 
-router.get('/:projectId', getById);
+router.get('/:projectId', guard, getById);
 
-router.post('/', validateCreateProject, create);
+router.post('/', guard, validateCreateProject, create);
 
-router.patch('/:projectId', validateUpdateProject, update);
+router.patch('/:projectId', guard, validateUpdateProject, update);
 
-router.delete('/:projectId', remove);
+router.delete('/:projectId', guard, remove);
 
 module.exports = router;
