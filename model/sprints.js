@@ -13,11 +13,6 @@ const createSprint = async (projectId, body) => {
   return result;
 };
 
-const getAllSprints = async projectId => {
-  const results = await Project.find({ _id: projectId });
-  return results;
-};
-
 const getSprintById = async (projectId, sprintId) => {
   const project = await Project.find({ _id: projectId });
   const [{ sprints }] = project;
@@ -66,7 +61,6 @@ const updateSprintById = async (projectId, sprintId, body) => {
 
 module.exports = {
   createSprint,
-  getAllSprints,
   getSprintById,
   removeSprintById,
   updateSprintById,

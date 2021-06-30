@@ -1,6 +1,5 @@
 const {
   createSprint,
-  getAllSprints,
   getSprintById,
   removeSprintById,
   updateSprintById,
@@ -17,25 +16,6 @@ const create = async (req, res, next) => {
     return res
       .status(404)
       .json({ status: 'error', code: 404, message: 'Not found' });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// GET ALL SPRINTS AND PROJECT INFORMATION
-const getAll = async (req, res, next) => {
-  try {
-    const project = await getAllSprints(req.params.projectId);
-    const [{ sprints, id, title, description, team }] = project;
-
-    return res.status(200).json({
-      status: 'success',
-      code: 200,
-      data: {
-        sprints,
-        projectInfo: { id, title, description, team },
-      },
-    });
   } catch (err) {
     next(err);
   }
@@ -103,4 +83,4 @@ const patchTitleById = async (req, res, next) => {
   }
 };
 
-module.exports = { create, getAll, getById, removeById, patchTitleById };
+module.exports = { create, getById, removeById, patchTitleById };

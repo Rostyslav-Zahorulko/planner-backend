@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {
   create,
-  getAll,
   getById,
   removeById,
   patchTitleById,
@@ -10,9 +9,6 @@ const {
 
 // CREATE SPRINT
 router.post('/:projectId', create);
-
-// GET ALL SPRINTS AND PROJECT INFORMATION
-router.get('/:projectId', getAll);
 
 // GET SPRINT BY ID
 router.get('/:projectId/:sprintId', getById);
