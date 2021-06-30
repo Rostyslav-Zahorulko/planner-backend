@@ -5,8 +5,10 @@ const helmet = require('helmet');
 
 const limiter = require('./helpers/limiter');
 const HttpCode = require('./helpers/constants');
-const projectsRouter = require('./routes/api/projects/projects');
+
 const userRouter = require('./routes/api/users/index');
+const projectsRouter = require('./routes/api/projects/projects');
+const sprintsRouter = require('./routes/api/sprints');
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(express.json({ limit: 15000 }));
 
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectsRouter);
+app.use('/api/projects', sprintsRouter);
 
 app.use((_req, res) => {
   res

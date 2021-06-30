@@ -24,7 +24,7 @@ const getProjectById = async (userId, projectId) => {
   return result;
 };
 
-const createProject = async (body) => {
+const createProject = async body => {
   const result = await Project.create(body);
   return result;
 };
@@ -36,7 +36,7 @@ const updateProject = async (userId, projectId, body) => {
       team: userId,
     },
     { ...body },
-    { new: true }
+    { new: true },
   );
   return result;
 };
