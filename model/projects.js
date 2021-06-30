@@ -1,12 +1,26 @@
 const Project = require('./schemas/project');
 
-const getAllPojects = async () => {
-  const results = await Project.find({});
-  return results;
+const getAllPojects = async (userId, query) => {
+  const { limit = 5, offset = 0, sortBy, sortByDesc, filter } = query;
+  const optionsSearch = { team: userId };
+  const results = await Project.paginate(optionsSearch, {
+    limit,
+    offset,
+    select: filter ? filter.split('|').join(' ') : '',
+    sort: {
+      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+      ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+    },
+  });
+  const { docs: projects, totalDocs: total } = results;
+  return { projects, total, limit, offset };
 };
 
-const getProjectById = async (projectId) => {
-  const result = await Project.findOne({ _id: projectId });
+const getProjectById = async (userId, projectId) => {
+  const result = await Project.findOne({
+    _id: projectId,
+    team: userId,
+  }).populate({ path: 'team', select: 'email -_id' });
   return result;
 };
 
@@ -15,10 +29,11 @@ const createProject = async (body) => {
   return result;
 };
 
-const updateProject = async (projectId, body) => {
+const updateProject = async (userId, projectId, body) => {
   const result = await Project.findOneAndUpdate(
     {
       _id: projectId,
+      team: userId,
     },
     { ...body },
     { new: true }
@@ -26,8 +41,11 @@ const updateProject = async (projectId, body) => {
   return result;
 };
 
-const removeProject = async (projectId) => {
-  const result = await Project.findByIdAndRemove({ _id: projectId });
+const removeProject = async (userId, projectId) => {
+  const result = await Project.findByIdAndRemove({
+    _id: projectId,
+    team: userId,
+  });
   return result;
 };
 

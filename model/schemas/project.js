@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema, SchemaTypes } = mongoose;
-// const mongoosePaginate = require("mongoose-paginate-v2");
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 // const taskSchema = new Schema({
 //   title: {
@@ -73,7 +73,7 @@ projectSchema.virtual('fullInf').get(function () {
   return `This is project '${this.title}'`;
 });
 
-// contactsSchema.plugin(mongoosePaginate);
+projectSchema.plugin(mongoosePaginate);
 const Project = mongoose.model('project', projectSchema);
 // const Sprint = mongoose.model('sprint', sprintSchema);
 // const Task = mongoose.model('task', taskSchema);

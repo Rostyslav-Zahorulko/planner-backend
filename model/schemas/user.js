@@ -4,8 +4,6 @@ const SALT_FACTOR = 8;
 
 const userSchema = new Schema(
   {
-    _id: Schema.Types.ObjectId,
-
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -30,11 +28,10 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('save', async function (next) {
-  //   if (this.isModified("password")) {
-  const salt = await bcrypt.genSalt(SALT_FACTOR);
-  this.password = await bcrypt.hash(this.password, salt);
-  //   }
-
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(SALT_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
   next();
 });
 
