@@ -27,7 +27,8 @@
     "joi": "^17.4.0",
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.15",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "eslint": "^7.29.0",
