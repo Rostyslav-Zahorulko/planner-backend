@@ -13,8 +13,8 @@ const createSprint = async (projectId, body) => {
   return result;
 };
 
-const getAllSprints = async () => {
-  const results = await Project.find({});
+const getAllSprints = async projectId => {
+  const results = await Project.find({ _id: projectId });
   return results;
 };
 

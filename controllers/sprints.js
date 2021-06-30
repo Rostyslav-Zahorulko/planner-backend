@@ -23,9 +23,9 @@ const create = async (req, res, next) => {
 };
 
 // GET ALL SPRINTS AND PROJECT INFORMATION
-const getAll = async (_req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
-    const project = await getAllSprints();
+    const project = await getAllSprints(req.params.projectId);
     const [{ sprints, id, title, description, team }] = project;
 
     return res.status(200).json({
