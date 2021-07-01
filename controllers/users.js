@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
       return res.status(HttpCode.CONFLICT).json({
         status: 'error',
         code: HttpCode.CONFLICT,
-        message: 'Email in use',
+        message: 'Email is already used',
       });
     }
     const newUser = await create(req.body);
@@ -31,8 +31,8 @@ const signup = async (req, res, next) => {
       user: {
         id,
         email,
-        token,
       },
+      token,
     });
   } catch (err) {
     next(err);
@@ -84,7 +84,7 @@ const currentUser = async (req, res, next) => {
       return res.status(HttpCode.OK).json({
         status: 'success',
         code: HttpCode.OK,
-        data: {
+        user: {
           email,
         },
       });
