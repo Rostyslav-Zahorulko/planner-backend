@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Planner API guide",
+    "description": ""
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:3000/" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorisation endpoints"
+    },
+    {
+      "name": "Projects",
+      "description": "Projects endpoints"
+    },
+    {
+      "name": "Sprints",
+      "description": "Sprints endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks endpoints"
+    }
+  ],
+
+  "paths": {
+    "auth/register": {}
+  }
+}
