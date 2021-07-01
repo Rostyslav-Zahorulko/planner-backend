@@ -23,9 +23,9 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json({ limit: 15000 }));
 
-app.use('/api/users', userRouter);
-app.use('/api/projects', projectsRouter);
-app.use('/api/projects', sprintsRouter);
+app.use('/users', userRouter);
+app.use('/projects', projectsRouter);
+app.use('/projects', sprintsRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {
