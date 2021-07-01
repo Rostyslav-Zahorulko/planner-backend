@@ -42,6 +42,7 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
     const user = await findByEmail(email);
     const isValidPassword = await user?.validPassword(password);
 
@@ -58,9 +59,11 @@ const login = async (req, res, next) => {
     return res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
-      data: {
-        token,
+      user: {
+        id: user.id,
+        email: user.email,
       },
+      token: token,
     });
   } catch (err) {
     next(err);
