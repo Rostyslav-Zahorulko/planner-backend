@@ -21,12 +21,17 @@ const signup = async (req, res, next) => {
     }
     const newUser = await create(req.body);
     const { id, email } = newUser;
+
+    const token = jwt.sign({ id }, JWT_SECRET_KEY, { expiresIn: '2h' });
+    await updateToken(id, token);
+
     return res.status(HttpCode.CREATED).json({
       status: 'success',
       code: HttpCode.CREATED,
-      data: {
+      user: {
         id,
         email,
+        token,
       },
     });
   } catch (err) {
