@@ -1,44 +1,44 @@
 const mongoose = require('mongoose');
 const { Schema, SchemaTypes } = mongoose;
-// const mongoosePaginate = require("mongoose-paginate-v2");
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-// const taskSchema = new Schema({
-//   title: {
-//     type: String,
-//     required: [true, 'Title is required'],
-//   },
+const taskSchema = new Schema({
+  title: {
+    type: String,
+    required: [true, 'Title is required'],
+  },
 
-//   plannedHours: {
-//     type: Number,
-//     // required: true,
-//   },
+  plannedHours: {
+    type: Number,
+    // required: true,
+  },
 
-//   totalHours: {
-//     type: Number,
-//     // required: true,
-//   },
+  totalHours: {
+    type: Number,
+    // required: true,
+  },
 
-//   hoursPerDay: [{ type: Number }],
-// });
+  hoursPerDay: [{ type: Number }],
+});
 
-// const sprintSchema = new Schema({
-//   title: {
-//     type: String,
-//     required: [true, 'Title is required'],
-//   },
+const sprintSchema = new Schema({
+  title: {
+    type: String,
+    required: [true, 'Title is required'],
+  },
 
-//   startDate: {
-//     type: Date,
-//     required: true,
-//   },
+  startDate: {
+    type: Date,
+    required: true,
+  },
 
-//   duration: {
-//     type: Number,
-//     required: true,
+  duration: {
+    type: Number,
+    required: true,
 
-//     tasks: [taskSchema],
-//   },
-// });
+    tasks: [taskSchema],
+  },
+});
 
 const projectSchema = new Schema(
   {
@@ -52,7 +52,7 @@ const projectSchema = new Schema(
     },
 
     team: [{ type: SchemaTypes.ObjectId, ref: 'user' }],
-    // sprints: [sprintSchema],
+    sprints: [sprintSchema],
   },
   {
     versionKey: false,
@@ -66,14 +66,14 @@ const projectSchema = new Schema(
         return ret;
       },
     },
-  }
+  },
 );
 
 projectSchema.virtual('fullInf').get(function () {
   return `This is project '${this.title}'`;
 });
 
-// contactsSchema.plugin(mongoosePaginate);
+projectSchema.plugin(mongoosePaginate);
 const Project = mongoose.model('project', projectSchema);
 // const Sprint = mongoose.model('sprint', sprintSchema);
 // const Task = mongoose.model('task', taskSchema);
