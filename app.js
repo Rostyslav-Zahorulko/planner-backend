@@ -1,21 +1,20 @@
-
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const limiter = require('./helpers/limiter');
 const HttpCode = require('./helpers/constants');
 
 const userRouter = require('./routes/api/users/index');
 const projectsRouter = require('./routes/api/projects/projects');
-const sprintsRouter = require('./routes/api/sprints');
+const sprintsRouter = require('./routes/api/sprints/sprints');
 
 const app = express();
 
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(helmet());
 app.use(limiter);
@@ -26,7 +25,7 @@ app.use(express.json({ limit: 15000 }));
 app.use('/users', userRouter);
 app.use('/projects', projectsRouter);
 app.use('/projects', sprintsRouter);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {
   res
