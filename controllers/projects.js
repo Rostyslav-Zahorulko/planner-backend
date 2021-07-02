@@ -10,9 +10,10 @@ const HttpCode = require('../helpers/constants');
 const getAll = async (req, res, next) => {
   try {
     const userId = req.user.id;
+    // console.log(userId);
     const { projects, total, limit, offset } = await getAllPojects(
       userId,
-      req.query
+      req.query,
     );
     return res.status(HttpCode.OK).json({
       status: 'success',
@@ -71,7 +72,7 @@ const update = async (req, res, next) => {
     const projectWithId = await updateProject(
       userId,
       req.params.projectId,
-      req.body
+      req.body,
     );
     if (projectWithId) {
       return res.status(HttpCode.OK).json({
