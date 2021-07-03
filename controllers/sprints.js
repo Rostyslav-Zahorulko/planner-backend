@@ -7,11 +7,9 @@ const {
 
 const create = async (req, res, next) => {
   try {
-    const updatedProject = await createSprint(req.params.projectId, req.body);
-    if (updatedProject) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { updatedProject } });
+    const data = await createSprint(req.params.projectId, req.body);
+    if (data) {
+      return res.status(200).json({ status: 'success', code: 200, data });
     }
     return res
       .status(404)
@@ -24,15 +22,10 @@ const create = async (req, res, next) => {
 // GET SPRINT BY ID
 const getById = async (req, res, next) => {
   try {
-    const sprint = await getSprintById(
-      req.params.projectId,
-      req.params.sprintId,
-    );
+    const data = await getSprintById(req.params.projectId, req.params.sprintId);
 
-    if (sprint) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { sprint } });
+    if (data) {
+      return res.status(200).json({ status: 'success', code: 200, data });
     }
     return res
       .status(404)
@@ -45,14 +38,14 @@ const getById = async (req, res, next) => {
 // REMOVE SPRINT BY ID
 const removeById = async (req, res, next) => {
   try {
-    const result = await removeSprintById(
+    const data = await removeSprintById(
       req.params.projectId,
       req.params.sprintId,
     );
-    if (result) {
+    if (data) {
       return res
         .status(200)
-        .json({ status: 'success', code: 200, data: { result } });
+        .json({ status: 'success', code: 200, data: data.sprints });
     }
     return res
       .status(404)
@@ -65,15 +58,13 @@ const removeById = async (req, res, next) => {
 // UPDATE SPRINT TITLE BY ID
 const patchTitleById = async (req, res, next) => {
   try {
-    const projectWithId = await updateSprintById(
+    const data = await updateSprintById(
       req.params.projectId,
       req.params.sprintId,
       req.body,
     );
-    if (projectWithId) {
-      return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: { projectWithId } });
+    if (data) {
+      return res.status(200).json({ status: 'success', code: 200, data });
     }
     return res
       .status(404)
