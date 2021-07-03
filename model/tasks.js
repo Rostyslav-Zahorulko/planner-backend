@@ -1,13 +1,34 @@
 const Project = require('./schemas/project');
+const { nanoid } = require('nanoid');
 
 // CREATING TASK
 const createTask = async (projectId, sprintId, body) => {
   const currentProject = await Project.findById(projectId);
   const projectSprints = currentProject.sprints;
   const currentSprint = currentProject.sprints.id(sprintId);
+  const { startDate, duration } = currentSprint; //
   const tasks = currentProject.sprints.id(sprintId).tasks;
-  tasks.push(body);
-  currentSprint.tasks = tasks;
+
+  function addDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  const daysArray = [];
+  daysArray.length = duration;
+  for (let i = 0; i < daysArray.length; i += 1) {
+    daysArray[i] = {
+      day: addDays(startDate, i),
+      wastedHours: 0,
+    };
+  }
+
+  const newTask = Object.assign(
+    {},
+    { id: nanoid(), ...body, hoursPerDay: daysArray, startDate },
+  );
+  tasks.push(newTask);
 
   const result = await Project.findOneAndUpdate(
     {

@@ -18,7 +18,7 @@ const taskSchema = new Schema(
       default: 0,
     },
 
-    hoursPerDay: [{ type: Number }],
+    hoursPerDay: [],
   },
   {
     versionKey: false,
