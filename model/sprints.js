@@ -15,6 +15,7 @@ const createSprint = async (projectId, body) => {
 
 const getSprintById = async (projectId, sprintId) => {
   const project = await Project.find({ _id: projectId });
+  console.log(project);
   const [{ sprints }] = project;
   const getsprint = sprints.find(sprint => sprint._id === sprintId);
   return getsprint;
@@ -40,23 +41,24 @@ const removeSprintById = async (projectId, sprintId) => {
 const updateSprintById = async (projectId, sprintId, body) => {
   const project = await Project.find({ _id: projectId });
   const [{ sprints }] = project;
+  let finalSprint = null;
   const updatedSprints = await sprints.map(sprint => {
     if (sprint._id === sprintId) {
       const { _id, duration, startDate } = sprint;
-      const updatedSprint = { _id, ...body, duration, startDate };
-      console.log(updatedSprint);
+      const updatedSprint = { id: _id, ...body, duration, startDate };
+      finalSprint = Object.assign({}, updatedSprint);
       return updatedSprint;
     } else return sprint;
   });
 
-  const result = await Project.findOneAndUpdate(
+  await Project.findOneAndUpdate(
     {
       _id: projectId,
     },
     { sprints: [...updatedSprints] },
     { new: true },
   );
-  return result;
+  return finalSprint;
 };
 
 module.exports = {

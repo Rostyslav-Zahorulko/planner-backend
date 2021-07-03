@@ -10,7 +10,7 @@ const HttpCode = require('./helpers/constants');
 
 const userRouter = require('./routes/api/users/index');
 const projectsRouter = require('./routes/api/projects/projects');
-const sprintsRouter = require('./routes/api/sprints');
+const sprintsRouter = require('./routes/api/sprints/sprints');
 const tasksRouter = require('./routes/api/tasks');
 
 const app = express();

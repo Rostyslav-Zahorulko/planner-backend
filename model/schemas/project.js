@@ -20,24 +20,38 @@ const taskSchema = new Schema({
   hoursPerDay: [{ type: Number }],
 });
 
-const sprintSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, 'Title is required'],
-  },
+const sprintSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: [true, 'Title is required'],
+    },
 
-  startDate: {
-    type: Date,
-    required: true,
-  },
+    startDate: {
+      type: Date,
+      required: true,
+    },
 
-  duration: {
-    type: Number,
-    required: true,
-  },
+    duration: {
+      type: Number,
+      required: true,
 
-  tasks: [taskSchema],
-});
+      tasks: [taskSchema],
+    },
+  },
+  {
+    versionKey: false,
+    toObject: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform: function (_doc, ret) {
+        delete ret._id;
+        delete ret.fullInf;
+        return ret;
+      },
+    },
+  },
+);
 
 const projectSchema = new Schema(
   {
