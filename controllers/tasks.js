@@ -8,18 +8,17 @@ const {
 // CREATE TASK
 const create = async (req, res, next) => {
   try {
-    const updatedProject = await createTask(
+    const data = await createTask(
       req.params.projectId,
       req.params.sprintId,
       req.body,
     );
 
-    console.log(updatedProject);
-    if (updatedProject) {
+    if (data) {
       return res.status(200).json({
         status: 'success',
         code: 200,
-        data: { project: updatedProject },
+        data,
       });
     }
     return res
