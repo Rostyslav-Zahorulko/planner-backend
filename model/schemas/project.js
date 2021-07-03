@@ -2,23 +2,37 @@ const mongoose = require('mongoose');
 const { Schema, SchemaTypes } = mongoose;
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-const taskSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, 'Title is required'],
-  },
-  plannedHours: {
-    type: Number,
-    // required: true,
-  },
+const taskSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: [true, 'Title is required'],
+    },
+    plannedHours: {
+      type: Number,
+      required: true,
+    },
 
-  totalHours: {
-    type: Number,
-    // required: true,
-  },
+    totalHours: {
+      type: Number,
+      default: 0,
+    },
 
-  hoursPerDay: [{ type: Number }],
-});
+    hoursPerDay: [],
+  },
+  {
+    versionKey: false,
+    toObject: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform: function (_doc, ret) {
+        delete ret._id;
+        delete ret.fullInf;
+        return ret;
+      },
+    },
+  },
+);
 
 const sprintSchema = new Schema(
   {
@@ -35,9 +49,9 @@ const sprintSchema = new Schema(
     duration: {
       type: Number,
       required: true,
-
-      tasks: [taskSchema],
     },
+
+    tasks: [taskSchema],
   },
   {
     versionKey: false,

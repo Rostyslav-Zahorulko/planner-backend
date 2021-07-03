@@ -4,16 +4,21 @@ const {
   removeSprintById,
   updateSprintById,
 } = require('../model/sprints');
+const HttpCode = require('../helpers/constants');
 
 const create = async (req, res, next) => {
   try {
     const data = await createSprint(req.params.projectId, req.body);
     if (data) {
-      return res.status(200).json({ status: 'success', code: 200, data });
+      return res
+        .status(HttpCode.CREATED)
+        .json({ status: 'success', code: HttpCode.CREATED, data });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -25,11 +30,15 @@ const getById = async (req, res, next) => {
     const data = await getSprintById(req.params.projectId, req.params.sprintId);
 
     if (data) {
-      return res.status(200).json({ status: 'success', code: 200, data });
+      return res
+        .status(HttpCode.OK)
+        .json({ status: 'success', code: HttpCode.OK, data });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -44,12 +53,14 @@ const removeById = async (req, res, next) => {
     );
     if (data) {
       return res
-        .status(200)
-        .json({ status: 'success', code: 200, data: data.sprints });
+        .status(HttpCode.OK)
+        .json({ status: 'success', code: HttpCode.OK, data: data.sprints });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -64,11 +75,15 @@ const patchTitleById = async (req, res, next) => {
       req.body,
     );
     if (data) {
-      return res.status(200).json({ status: 'success', code: 200, data });
+      return res
+        .status(HttpCode.OK)
+        .json({ status: 'success', code: HttpCode.OK, data });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
