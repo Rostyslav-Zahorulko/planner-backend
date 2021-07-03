@@ -7,7 +7,6 @@ const taskSchema = new Schema({
     type: String,
     required: [true, 'Title is required'],
   },
-
   plannedHours: {
     type: Number,
     // required: true,
@@ -35,9 +34,9 @@ const sprintSchema = new Schema({
   duration: {
     type: Number,
     required: true,
-
-    tasks: [taskSchema],
   },
+
+  tasks: [taskSchema],
 });
 
 const projectSchema = new Schema(
@@ -75,9 +74,9 @@ projectSchema.virtual('fullInf').get(function () {
 
 projectSchema.plugin(mongoosePaginate);
 const Project = mongoose.model('project', projectSchema);
-// const Sprint = mongoose.model('sprint', sprintSchema);
-// const Task = mongoose.model('task', taskSchema);
 
 module.exports = Project;
+// const Task = mongoose.model('task', taskSchema);
+// const Sprint = mongoose.model('sprint', sprintSchema);
 // module.exports = Sprint;
 // module.exports = Task;
