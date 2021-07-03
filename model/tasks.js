@@ -19,8 +19,8 @@ const createTask = async (projectId, sprintId, body) => {
   daysArray.length = duration;
   for (let i = 0; i < daysArray.length; i += 1) {
     daysArray[i] = {
-      day: addDays(startDate, i),
-      wastedHours: 0,
+      date: addDays(startDate, i),
+      hoursSpent: 0,
     };
   }
 
