@@ -1,9 +1,10 @@
 const {
   createTask,
   // getSprintById,
-  // removeSprintById,
+  removeTaskById,
   // updateSprintById,
 } = require('../model/tasks');
+const HttpCode = require('../helpers/constants');
 
 // CREATE TASK
 const create = async (req, res, next) => {
@@ -15,15 +16,17 @@ const create = async (req, res, next) => {
     );
 
     if (data) {
-      return res.status(200).json({
+      return res.status(HttpCode.CREATED).json({
         status: 'success',
-        code: 200,
+        code: HttpCode.CREATED,
         data,
       });
     }
-    return res
-      .status(404)
-      .json({ status: 'error', code: 404, message: 'Not found' });
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
   } catch (err) {
     next(err);
   }
@@ -50,25 +53,28 @@ const create = async (req, res, next) => {
 //   }
 // };
 
-// // REMOVE SPRINT BY ID
-// const removeById = async (req, res, next) => {
-//   try {
-//     const result = await removeSprintById(
-//       req.params.projectId,
-//       req.params.sprintId,
-//     );
-//     if (result) {
-//       return res
-//         .status(200)
-//         .json({ status: 'success', code: 200, data: { result } });
-//     }
-//     return res
-//       .status(404)
-//       .json({ status: 'error', code: 404, message: 'Not found' });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+// REMOVE TASK BY ID
+const removeById = async (req, res, next) => {
+  try {
+    const data = await removeTaskById(
+      req.params.projectId,
+      req.params.sprintId,
+      req.params.taskId,
+    );
+    if (data) {
+      return res
+        .status(HttpCode.OK)
+        .json({ status: 'success', code: HttpCode.OK, data });
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 // // UPDATE SPRINT TITLE BY ID
 // const patchTitleById = async (req, res, next) => {
@@ -94,6 +100,6 @@ const create = async (req, res, next) => {
 module.exports = {
   create,
   // getById,
-  // removeById,
+  removeById,
   // patchTitleById
 };
