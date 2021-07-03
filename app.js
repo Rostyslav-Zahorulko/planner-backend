@@ -11,6 +11,7 @@ const HttpCode = require('./helpers/constants');
 const userRouter = require('./routes/api/users/index');
 const projectsRouter = require('./routes/api/projects/projects');
 const sprintsRouter = require('./routes/api/sprints/sprints');
+const tasksRouter = require('./routes/api/tasks');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.json({ limit: 15000 }));
 app.use('/users', userRouter);
 app.use('/projects', projectsRouter);
 app.use('/projects', sprintsRouter);
+app.use('/projects', tasksRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {

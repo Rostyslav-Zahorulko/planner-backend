@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, SchemaTypes, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const bcrypt = require('bcryptjs');
 const SALT_FACTOR = 8;
 
@@ -22,9 +23,9 @@ const userSchema = new Schema(
       default: null,
     },
 
-    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    projects: [{ type: SchemaTypes.ObjectId, ref: 'project' }],
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
 );
 
 userSchema.pre('save', async function (next) {
@@ -39,6 +40,7 @@ userSchema.methods.validPassword = async function (password) {
   return await bcrypt.compare(String(password), this.password);
 };
 
+userSchema.plugin(mongoosePaginate);
 const User = model('user', userSchema);
 
 module.exports = User;

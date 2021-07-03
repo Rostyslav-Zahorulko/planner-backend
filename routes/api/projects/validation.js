@@ -2,12 +2,12 @@ const Joi = require('joi');
 const HttpCode = require('../../../helpers/constants');
 
 const schemaCreateProject = Joi.object({
-  title: Joi.string().alphanum().min(1).max(30).required(),
+  title: Joi.string().min(1).max(30).required(),
   description: Joi.string().min(1).max(50).required(),
 });
 
 const schemaUpdateProject = Joi.object({
-  title: Joi.string().alphanum().min(1).max(30).required(),
+  title: Joi.string().min(1).max(30).required(),
   description: Joi.string().min(1).max(50).required(),
 });
 
