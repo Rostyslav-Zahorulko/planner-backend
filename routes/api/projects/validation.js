@@ -8,7 +8,6 @@ const schemaCreateProject = Joi.object({
 
 const schemaUpdateProject = Joi.object({
   title: Joi.string().min(1).max(30).required(),
-  description: Joi.string().min(1).max(50).required(),
 });
 
 const validate = async (schema, body, next) => {

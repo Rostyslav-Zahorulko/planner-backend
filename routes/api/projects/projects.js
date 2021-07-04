@@ -11,7 +11,7 @@ const {
 const guard = require('../../../helpers/guard');
 const {
   validateCreateProject,
-  // validateUpdateProject,
+  validateUpdateProject,
 } = require('./validation');
 
 router.get('/', guard, getAll);
@@ -23,7 +23,7 @@ router.get('/:projectId', guard, getById);
 // ОН НЕ НУЖЕН, НУЖЕН ТОЛЬКО АПДЕЙТ НАЗВАНИЯ
 // router.patch('/:projectId', guard, validateUpdateProject, update);
 
-router.patch('/:projectId', guard, updateTitle);
+router.patch('/:projectId', guard, validateUpdateProject, updateTitle);
 
 router.delete('/:projectId', guard, remove);
 
