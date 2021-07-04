@@ -1,8 +1,7 @@
 const {
   createTask,
-  // getSprintById,
   removeTaskById,
-  // updateSprintById,
+  patchTaskWorkingHoursByDay,
 } = require('../model/tasks');
 const HttpCode = require('../helpers/constants');
 
@@ -32,27 +31,6 @@ const create = async (req, res, next) => {
   }
 };
 
-// // GET SPRINT BY ID
-// const getById = async (req, res, next) => {
-//   try {
-//     const sprint = await getSprintById(
-//       req.params.projectId,
-//       req.params.sprintId,
-//     );
-
-//     if (sprint) {
-//       return res
-//         .status(200)
-//         .json({ status: 'success', code: 200, data: { sprint } });
-//     }
-//     return res
-//       .status(404)
-//       .json({ status: 'error', code: 404, message: 'Not found' });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 // REMOVE TASK BY ID
 const removeById = async (req, res, next) => {
   try {
@@ -76,30 +54,32 @@ const removeById = async (req, res, next) => {
   }
 };
 
-// // UPDATE SPRINT TITLE BY ID
-// const patchTitleById = async (req, res, next) => {
-//   try {
-//     const projectWithId = await updateSprintById(
-//       req.params.projectId,
-//       req.params.sprintId,
-//       req.body,
-//     );
-//     if (projectWithId) {
-//       return res
-//         .status(200)
-//         .json({ status: 'success', code: 200, data: { projectWithId } });
-//     }
-//     return res
-//       .status(404)
-//       .json({ status: 'error', code: 404, message: 'Not found' });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+//  ADD AMOUNT OF WORKING HOURS BY DAY
+const addWorkingHoursByDay = async (req, res, next) => {
+  try {
+    const data = await patchTaskWorkingHoursByDay(
+      req.params.projectId,
+      req.params.sprintId,
+      req.params.taskId,
+      req.body,
+    );
+    if (data) {
+      return res
+        .status(HttpCode.OK)
+        .json({ status: 'success', code: HttpCode.OK, data });
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = {
   create,
-  // getById,
   removeById,
-  // patchTitleById
+  addWorkingHoursByDay,
 };
