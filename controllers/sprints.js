@@ -27,12 +27,15 @@ const create = async (req, res, next) => {
 // GET SPRINT BY ID
 const getById = async (req, res, next) => {
   try {
-    const data = await getSprintById(req.params.projectId, req.params.sprintId);
+    const sprint = await getSprintById(
+      req.params.projectId,
+      req.params.sprintId,
+    );
 
-    if (data) {
+    if (sprint) {
       return res
         .status(HttpCode.OK)
-        .json({ status: 'success', code: HttpCode.OK, data });
+        .json({ status: 'success', code: HttpCode.OK, sprint });
     }
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
@@ -54,7 +57,7 @@ const removeById = async (req, res, next) => {
     if (data) {
       return res
         .status(HttpCode.OK)
-        .json({ status: 'success', code: HttpCode.OK, data: data.sprints });
+        .json({ status: 'success', code: HttpCode.OK, sprints: data.sprints });
     }
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
@@ -77,7 +80,7 @@ const patchTitleById = async (req, res, next) => {
     if (data) {
       return res
         .status(HttpCode.OK)
-        .json({ status: 'success', code: HttpCode.OK, data });
+        .json({ status: 'success', code: HttpCode.OK, sprint: data });
     }
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',

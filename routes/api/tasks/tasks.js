@@ -19,6 +19,6 @@ router.post('/:projectId/:sprintId', guard, validateCreateTask, create);
 router.delete('/:projectId/:sprintId/:taskId', guard, removeById);
 
 // ADD AMOUNT OF WORKING HOURS BY DAY
-// router.patch('/:projectId/:sprintId/:taskId/:dayNumber', addWorkingHoursByDay);
+// router.patch('/:projectId/:sprintId/:taskId?day=:dayNumber', addWorkingHoursByDay);
 
 module.exports = router;
