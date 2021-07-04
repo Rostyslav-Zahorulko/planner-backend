@@ -126,7 +126,7 @@ const remove = async (req, res, next) => {
       return res.status(HttpCode.OK).json({
         status: 'success',
         code: HttpCode.OK,
-        data: { projectWithId },
+        project: projectWithId,
       });
     }
     return res.status(HttpCode.NOT_FOUND).json({
