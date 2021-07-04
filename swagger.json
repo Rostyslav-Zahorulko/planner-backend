@@ -1340,9 +1340,9 @@
                             "example": "10"
                           },
                           "startDate": {
-                            "type": "date",
+                            "type": "string",
                             "description": "sprint start date",
-                            "example": "2012-07-12T12:24:00.000Z"
+                            "example": "2012-07-12"
                           },
                           "tasks": {
                             "type": "array",
@@ -1362,9 +1362,9 @@
                                     "description": "amount of working hours per day",
                                     "properties": {
                                       "date": {
-                                        "type": "date",
+                                        "type": "string",
                                         "description": "working day",
-                                        "example": "2012-07-12T12:24:00.000Z"
+                                        "example": "2012-07-12"
                                       },
                                       "totalHours": {
                                         "type": "number",
@@ -1401,12 +1401,12 @@
                       }
                     },
                     "createdAt": {
-                      "type": "date",
+                      "type": "string",
                       "description": "creating date",
                       "example": "2021-07-02T16:23:27.281Z"
                     },
                     "updateddAt": {
-                      "type": "date",
+                      "type": "string",
                       "description": "updating date",
                       "example": "2021-07-02T16:23:27.281Z"
                     },
@@ -1492,9 +1492,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -1514,9 +1514,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -1553,12 +1553,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -1624,9 +1624,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -1646,9 +1646,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -1685,12 +1685,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -1768,9 +1768,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -1790,9 +1790,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -1829,12 +1829,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -1900,9 +1900,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -1922,9 +1922,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -1961,12 +1961,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -1990,12 +1990,12 @@
             "example": "My sprint Title"
           },
           "startDate": {
-            "type": "date",
+            "type": "string",
             "description": "start date",
-            "example": "2021-07-04T09:41:56.780+00:00"
+            "example": "2021-07-04"
           },
           "duration": {
-            "type": "date",
+            "type": "number",
             "description": "duration of the sprint, days",
             "example": "10"
           }
@@ -2054,9 +2054,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -2076,9 +2076,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -2115,12 +2115,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -2162,9 +2162,9 @@
                 "example": "10"
               },
               "startDate": {
-                "type": "date",
+                "type": "string",
                 "description": "sprint start date",
-                "example": "2012-07-12T12:24:00.000Z"
+                "example": "2012-07-12"
               },
               "tasks": {
                 "type": "array",
@@ -2184,9 +2184,9 @@
                         "description": "amount of working hours per day",
                         "properties": {
                           "date": {
-                            "type": "date",
+                            "type": "string",
                             "description": "working day",
-                            "example": "2012-07-12T12:24:00.000Z"
+                            "example": "2012-07-12"
                           },
                           "totalHours": {
                             "type": "number",
@@ -2286,9 +2286,9 @@
                         "description": "amount of working hours per day",
                         "properties": {
                           "date": {
-                            "type": "date",
+                            "type": "string",
                             "description": "working day",
-                            "example": "2012-07-12T12:24:00.000Z"
+                            "example": "2012-07-12"
                           },
                           "totalHours": {
                             "type": "number",
@@ -2317,7 +2317,7 @@
                 }
               },
               "startDate": {
-                "type": "date",
+                "type": "string",
                 "description": "sprint start date",
                 "example": "2012-07-12T12:24:00.000Z"
               }
@@ -2356,9 +2356,9 @@
                   "example": "10"
                 },
                 "startDate": {
-                  "type": "date",
+                  "type": "string",
                   "description": "sprint start date",
-                  "example": "2012-07-12T12:24:00.000Z"
+                  "example": "2012-07-12"
                 },
                 "tasks": {
                   "type": "array",
@@ -2378,9 +2378,9 @@
                           "description": "amount of working hours per day",
                           "properties": {
                             "date": {
-                              "type": "date",
+                              "type": "string",
                               "description": "working day",
-                              "example": "2012-07-12T12:24:00.000Z"
+                              "example": "2012-07-12"
                             },
                             "totalHours": {
                               "type": "number",
@@ -2488,9 +2488,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -2510,9 +2510,9 @@
                               "description": "amount of working hours per day",
                               "properties": {
                                 "date": {
-                                  "type": "date",
+                                  "type": "string",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -2549,12 +2549,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
@@ -2620,9 +2620,9 @@
                       "example": "10"
                     },
                     "startDate": {
-                      "type": "date",
+                      "type": "string",
                       "description": "sprint start date",
-                      "example": "2012-07-12T12:24:00.000Z"
+                      "example": "2012-07-12"
                     },
                     "tasks": {
                       "type": "array",
@@ -2644,7 +2644,7 @@
                                 "date": {
                                   "type": "date",
                                   "description": "working day",
-                                  "example": "2012-07-12T12:24:00.000Z"
+                                  "example": "2012-07-12"
                                 },
                                 "totalHours": {
                                   "type": "number",
@@ -2681,12 +2681,12 @@
                 }
               },
               "createdAt": {
-                "type": "date",
+                "type": "string",
                 "description": "creating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
               "updateddAt": {
-                "type": "date",
+                "type": "string",
                 "description": "updating date",
                 "example": "2021-07-02T16:23:27.281Z"
               },
