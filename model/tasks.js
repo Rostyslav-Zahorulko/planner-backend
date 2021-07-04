@@ -11,7 +11,7 @@ const createTask = async (projectId, sprintId, body) => {
 
   function addDays(date, days) {
     const result = new Date(date);
-    result.setDate(result.getDate() + days);
+    result.setDate(result.getDate() + days).toString();
     return result;
   }
 
@@ -40,13 +40,6 @@ const createTask = async (projectId, sprintId, body) => {
   return result;
 };
 
-// const getSprintById = async (projectId, sprintId) => {
-//   const project = await Project.find({ _id: projectId });
-//   const [{ sprints }] = project;
-//   const getsprint = sprints.find(sprint => sprint._id === sprintId);
-//   return getsprint;
-// };
-
 const removeTaskById = async (projectId, sprintId, taskId) => {
   const currentProject = await Project.findById(projectId);
   const projectSprints = currentProject.sprints;
@@ -71,31 +64,61 @@ const removeTaskById = async (projectId, sprintId, taskId) => {
   }
 };
 
-// const updateSprintById = async (projectId, sprintId, body) => {
-//   const project = await Project.find({ _id: projectId });
-//   const [{ sprints }] = project;
-//   const updatedSprints = await sprints.map(sprint => {
-//     if (sprint._id === sprintId) {
-//       const { _id, duration, startDate } = sprint;
-//       const updatedSprint = { _id, ...body, duration, startDate };
-//       console.log(updatedSprint);
-//       return updatedSprint;
-//     } else return sprint;
-//   });
+const patchTaskWorkingHoursByDay = async (
+  projectId,
+  sprintId,
+  taskId,
+  body,
+) => {
+  const currentProject = await Project.findById(projectId);
+  const projectSprints = currentProject.sprints;
+  const currentSprint = currentProject.sprints.id(sprintId);
+  const tasks = currentProject.sprints.id(sprintId).tasks;
+  const currentTask = currentProject.sprints.id(sprintId).tasks.id(taskId);
 
-//   const result = await Project.findOneAndUpdate(
-//     {
-//       _id: projectId,
-//     },
-//     { sprints: [...updatedSprints] },
-//     { new: true },
-//   );
-//   return result;
-// };
+  function compareDates(d1, d2) {
+    const date1 = new Date(d1);
+    const date2 = new Date(d2);
+    if (date1.getTime() == date2.getTime()) {
+      return true;
+    } else return false;
+  }
+
+  const { totalHours, hoursPerDay, title, plannedHours, _id } = currentTask;
+  const updatedHoursPerDay = hoursPerDay.map(obj => {
+    if (compareDates(obj.date, body.date)) {
+      const correctedDate = new Date(body.date);
+      const updatedBody = Object.assign(
+        {},
+        {
+          ...body,
+          date: correctedDate,
+        },
+      );
+      return updatedBody;
+    } else return obj;
+  });
+
+  const updatedTask = Object.assign(
+    {},
+    { totalHours, hoursPerDay: updatedHoursPerDay, title, plannedHours, _id },
+  );
+  const updatedTasks = tasks.filter(task => task._id != taskId);
+  updatedTasks.push(updatedTask);
+  currentSprint.tasks = updatedTasks;
+  await Project.findOneAndUpdate(
+    {
+      _id: projectId,
+    },
+    { sprints: [...projectSprints] },
+    { new: true },
+  );
+
+  return updatedTasks;
+};
 
 module.exports = {
   createTask,
   removeTaskById,
-  // getSprintById,
-  // updateSprintById,
+  patchTaskWorkingHoursByDay,
 };
