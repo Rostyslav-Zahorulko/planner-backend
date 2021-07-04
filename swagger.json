@@ -923,8 +923,8 @@
         }
       },
       "post": {
-        "tags": ["Projects"],
-        "summary": "Create New Sprint in the project",
+        "tags": ["Tasks"],
+        "summary": "Create New Task in the Sprint",
 
         "parameters": [
           {
@@ -933,17 +933,24 @@
             "required": true,
             "type": "string",
             "description": "project Id"
+          },
+          {
+            "in": "path",
+            "name": "sprintId",
+            "required": true,
+            "type": "string",
+            "description": "sprint Id"
           }
         ],
         "security": [{ "Bearer": [] }],
 
         "requestBody": {
-          "description": "New sprint object",
+          "description": "New task object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateSprintRequest"
+                "$ref": "#/components/schemas/CreateTaskRequest"
               }
             }
           }
@@ -955,7 +962,92 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateSprintResponse"
+                  "$ref": "#/components/schemas/CreateTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/projects/{projectId}/{sprintId}/{taskId}": {
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete Task",
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "description": "project Id"
+          },
+          {
+            "in": "path",
+            "name": "sprintId",
+            "required": true,
+            "type": "string",
+            "description": "sprint Id"
+          },
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "task Id"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTaskResponse"
                 }
               }
             }
@@ -2321,6 +2413,287 @@
                   "description": "sprint id",
                   "example": "n3nldfivnrt45677563"
                 }
+              }
+            }
+          }
+        }
+      },
+
+      "CreateTaskRequest": {
+        "type": "object",
+        "required": ["title", "plannedHours"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "task title",
+            "example": "My Task Title"
+          },
+          "plannedHours": {
+            "type": "number",
+            "description": "amount of hours planned for completing the task",
+            "example": "6"
+          }
+        }
+      },
+
+      "CreateTaskResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "201"
+          },
+          "project": {
+            "type": "object",
+            "description": "project data",
+            "properties": {
+              "team": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "project collaborator id",
+                  "example": "123ftngj1unfidf"
+                }
+              },
+              "title": {
+                "type": "string",
+                "description": "project title",
+                "example": "My project"
+              },
+              "description": {
+                "type": "string",
+                "description": "project description",
+                "example": "My project description"
+              },
+              "sprints": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "projects`s sprint",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "sprint title",
+                      "example": "My sprint"
+                    },
+                    "duration": {
+                      "type": "number",
+                      "description": "duration of the sprint (days)",
+                      "example": "10"
+                    },
+                    "startDate": {
+                      "type": "date",
+                      "description": "sprint start date",
+                      "example": "2012-07-12T12:24:00.000Z"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "projects`s sprint`s task",
+                        "properties": {
+                          "totalHours": {
+                            "type": "number",
+                            "description": "tasks` total working hours",
+                            "example": "0"
+                          },
+                          "hoursPerDay": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "description": "amount of working hours per day",
+                              "properties": {
+                                "date": {
+                                  "type": "date",
+                                  "description": "working day",
+                                  "example": "2012-07-12T12:24:00.000Z"
+                                },
+                                "totalHours": {
+                                  "type": "number",
+                                  "description": "how many working hours were spent this day",
+                                  "example": "12"
+                                }
+                              }
+                            }
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "task title",
+                            "example": "My task"
+                          },
+                          "plannedHours": {
+                            "type": "number",
+                            "description": "amount of hours planned for the task",
+                            "example": "12"
+                          },
+                          "id": {
+                            "type": "string",
+                            "description": "task id",
+                            "example": "n3nldfivnrt45677563"
+                          }
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "sprint id",
+                      "example": "n3nldfivnrt45677563"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "date",
+                "description": "creating date",
+                "example": "2021-07-02T16:23:27.281Z"
+              },
+              "updateddAt": {
+                "type": "date",
+                "description": "updating date",
+                "example": "2021-07-02T16:23:27.281Z"
+              },
+              "id": {
+                "type": "string",
+                "description": "project id",
+                "example": "n3nldfivnrt45677563"
+              }
+            }
+          }
+        }
+      },
+
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "200"
+          },
+          "project": {
+            "type": "object",
+            "description": "deleted project data",
+            "properties": {
+              "team": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "project collaborator id",
+                  "example": "123ftngj1unfidf"
+                }
+              },
+              "title": {
+                "type": "string",
+                "description": "project title",
+                "example": "My Project"
+              },
+              "description": {
+                "type": "string",
+                "description": "project description",
+                "example": "My project description"
+              },
+              "sprints": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "projects`s sprint",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "sprint title",
+                      "example": "My sprint"
+                    },
+                    "duration": {
+                      "type": "number",
+                      "description": "duration of the sprint (days)",
+                      "example": "10"
+                    },
+                    "startDate": {
+                      "type": "date",
+                      "description": "sprint start date",
+                      "example": "2012-07-12T12:24:00.000Z"
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "projects`s sprint`s task",
+                        "properties": {
+                          "totalHours": {
+                            "type": "number",
+                            "description": "tasks` total working hours",
+                            "example": "0"
+                          },
+                          "hoursPerDay": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "description": "amount of working hours per day",
+                              "properties": {
+                                "date": {
+                                  "type": "date",
+                                  "description": "working day",
+                                  "example": "2012-07-12T12:24:00.000Z"
+                                },
+                                "totalHours": {
+                                  "type": "number",
+                                  "description": "how many working hours were spent this day",
+                                  "example": "12"
+                                }
+                              }
+                            }
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "task title",
+                            "example": "My task"
+                          },
+                          "plannedHours": {
+                            "type": "number",
+                            "description": "amount of hours planned for the task",
+                            "example": "12"
+                          },
+                          "id": {
+                            "type": "string",
+                            "description": "task id",
+                            "example": "n3nldfivnrt45677563"
+                          }
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "sprint id",
+                      "example": "n3nldfivnrt45677563"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "date",
+                "description": "creating date",
+                "example": "2021-07-02T16:23:27.281Z"
+              },
+              "updateddAt": {
+                "type": "date",
+                "description": "updating date",
+                "example": "2021-07-02T16:23:27.281Z"
+              },
+              "id": {
+                "type": "string",
+                "description": "project id",
+                "example": "n3nldfivnrt45677563"
               }
             }
           }
