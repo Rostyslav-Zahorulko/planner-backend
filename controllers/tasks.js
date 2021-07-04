@@ -18,7 +18,7 @@ const create = async (req, res, next) => {
       return res.status(HttpCode.CREATED).json({
         status: 'success',
         code: HttpCode.CREATED,
-        data,
+        project: data,
       });
     }
     return res.status(HttpCode.NOT_FOUND).json({
@@ -42,7 +42,7 @@ const removeById = async (req, res, next) => {
     if (data) {
       return res
         .status(HttpCode.OK)
-        .json({ status: 'success', code: HttpCode.OK, data });
+        .json({ status: 'success', code: HttpCode.OK, project: data });
     }
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',

@@ -41,6 +41,22 @@ const updateProject = async (userId, projectId, body) => {
   return result;
 };
 
+const updateProjectTitle = async (userId, projectId, body) => {
+  const project = await Project.findById(projectId);
+  project.title = body.title;
+  // console.log(project);
+  const result = await Project.findOneAndUpdate(
+    {
+      _id: projectId,
+      team: userId,
+    },
+    { ...project },
+    { new: true },
+  );
+  // console.log(result);
+  return result;
+};
+
 const removeProject = async (userId, projectId) => {
   const result = await Project.findByIdAndRemove({
     _id: projectId,
@@ -54,5 +70,6 @@ module.exports = {
   getProjectById,
   createProject,
   updateProject,
+  updateProjectTitle,
   removeProject,
 };
