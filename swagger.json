@@ -10,7 +10,7 @@
   "servers": [{ "url": "http://localhost:3000/" }],
   "tags": [
     {
-      "name": "Auth",
+      "name": "Users",
       "description": "Authorisation endpoints"
     },
     {
@@ -28,6 +28,534 @@
   ],
 
   "paths": {
-    "auth/register": {}
+    "/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Registration object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorConflictResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User login",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User logout",
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user",
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user`s email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user`s password (at least 8 characters, at least 1 number)",
+            "example": "12345678"
+          }
+        }
+      },
+
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "201"
+          },
+          "user": {
+            "type": "object",
+            "description": "user data",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "user`s id",
+                "example": "12345"
+              },
+              "email": {
+                "type": "string",
+                "description": "user`s email",
+                "format": "email",
+                "example": "username@example.com"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "user`s token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZGQ5NGNmMzA5MWM2MjczY2JmMjUxOCIsImlhdCI6MTYyNTI2MzU4MywiZXhwIjoxNjI1MjcwNzgzfQ.CiV0TEgQCmkdX0YIjyz2mH92ytUV4Oot9zIB9X1w_w4"
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user`s email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user`s password (at least 8 characters, at least 1 number)",
+            "example": "12345678"
+          }
+        }
+      },
+
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "200"
+          },
+          "user": {
+            "type": "object",
+            "description": "user data",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "user`s id",
+                "example": "12345"
+              },
+              "email": {
+                "type": "string",
+                "description": "user`s email",
+                "format": "email",
+                "example": "username@example.com"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "user`s token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZGQ5NGNmMzA5MWM2MjczY2JmMjUxOCIsImlhdCI6MTYyNTI2MzU4MywiZXhwIjoxNjI1MjcwNzgzfQ.CiV0TEgQCmkdX0YIjyz2mH92ytUV4Oot9zIB9X1w_w4"
+          }
+        }
+      },
+
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "logout success",
+            "example": "204"
+          },
+          "user": {
+            "type": "object",
+            "description": "logout user data",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "user`s email",
+                "format": "email",
+                "example": "username@example.com"
+              }
+            }
+          }
+        }
+      },
+
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "200"
+          },
+          "user": {
+            "type": "object",
+            "description": "user data",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "user`s email",
+                "format": "email",
+                "example": "username@example.com"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "user`s token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZGQ5NGNmMzA5MWM2MjczY2JmMjUxOCIsImlhdCI6MTYyNTI2MzU4MywiZXhwIjoxNjI1MjcwNzgzfQ.CiV0TEgQCmkdX0YIjyz2mH92ytUV4Oot9zIB9X1w_w4"
+          }
+        }
+      },
+
+      "ErrorBadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "code": {
+            "type": "number",
+            "example": "400"
+          },
+          "message": {
+            "type": "string",
+            "description": "body validation error",
+            "example": "\"email\" is required"
+          }
+        }
+      },
+
+      "ErrorUnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "code": {
+            "type": "number",
+            "example": "401"
+          },
+          "message": {
+            "type": "string",
+            "description": "Access is denied",
+            "example": "Access is denied / Invalid credentials"
+          }
+        }
+      },
+
+      "ErrorNotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "code": {
+            "type": "number",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "example": "Not Found"
+          }
+        }
+      },
+
+      "ErrorConflictResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "code": {
+            "type": "number",
+            "example": "409"
+          },
+          "message": {
+            "type": "string",
+            "description": "User with these creds is already exist",
+            "example": "Email is already used"
+          }
+        }
+      },
+
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "code": {
+            "type": "number",
+            "example": "500"
+          },
+          "message": {
+            "type": "string",
+            "example": "Internal Server Error"
+          }
+        }
+      }
+    },
+
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   }
 }

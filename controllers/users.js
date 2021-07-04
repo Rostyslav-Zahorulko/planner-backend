@@ -78,8 +78,8 @@ const logout = async (req, res, _next) => {
 const currentUser = async (req, res, next) => {
   try {
     const userToken = req.user.token;
-    const { email } = req.user;
     const curUser = await findByToken(userToken);
+    const { email } = curUser;
     if (curUser) {
       return res.status(HttpCode.OK).json({
         status: 'success',
