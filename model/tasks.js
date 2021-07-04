@@ -11,7 +11,7 @@ const createTask = async (projectId, sprintId, body) => {
 
   function addDays(date, days) {
     const result = new Date(date);
-    result.setDate(result.getDate() + days);
+    result.setDate(result.getDate() + days).toString();
     return result;
   }
 
@@ -78,9 +78,7 @@ const patchTaskWorkingHoursByDay = async (
 
   function compareDates(d1, d2) {
     const date1 = new Date(d1);
-    console.log(date1);
     const date2 = new Date(d2);
-    console.log(date2);
     if (date1.getTime() == date2.getTime()) {
       return true;
     } else return false;
@@ -89,7 +87,15 @@ const patchTaskWorkingHoursByDay = async (
   const { totalHours, hoursPerDay, title, plannedHours, _id } = currentTask;
   const updatedHoursPerDay = hoursPerDay.map(obj => {
     if (compareDates(obj.date, body.date)) {
-      return body;
+      const correctedDate = new Date(body.date);
+      const updatedBody = Object.assign(
+        {},
+        {
+          ...body,
+          date: correctedDate,
+        },
+      );
+      return updatedBody;
     } else return obj;
   });
 
