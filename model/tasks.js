@@ -99,9 +99,20 @@ const patchTaskWorkingHoursByDay = async (
     } else return obj;
   });
 
+  let updatedTotalHours = 0;
+  for (let i = 0; i < updatedHoursPerDay.length; i += 1) {
+    updatedTotalHours += updatedHoursPerDay[i].hoursSpent;
+  }
+
   const updatedTask = Object.assign(
     {},
-    { totalHours, hoursPerDay: updatedHoursPerDay, title, plannedHours, _id },
+    {
+      totalHours: updatedTotalHours,
+      hoursPerDay: updatedHoursPerDay,
+      title,
+      plannedHours,
+      _id,
+    },
   );
   const updatedTasks = tasks.filter(task => task._id != taskId);
   updatedTasks.push(updatedTask);
