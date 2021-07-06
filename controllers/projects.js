@@ -140,7 +140,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-const add = async (req, res, next) => {
+const addUser = async (req, res, next) => {
   try {
     const userEmail = req.body.email;
     const projectId = req.params.projectId;
@@ -169,5 +169,5 @@ module.exports = {
   update,
   updateTitle,
   remove,
-  add,
+  addUser,
 };
