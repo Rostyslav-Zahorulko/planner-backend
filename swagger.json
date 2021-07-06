@@ -1093,6 +1093,100 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Add spent hours by day",
+
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "description": "project Id"
+          },
+          {
+            "in": "path",
+            "name": "sprintId",
+            "required": true,
+            "type": "string",
+            "description": "sprint Id"
+          },
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "task Id"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Date with amount hours of work",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddWWorkingHoursByDayRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddWWorkingHoursByDayResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -2693,6 +2787,84 @@
               "id": {
                 "type": "string",
                 "description": "project id",
+                "example": "n3nldfivnrt45677563"
+              }
+            }
+          }
+        }
+      },
+
+      "AddWWorkingHoursByDayRequest": {
+        "type": "object",
+        "required": ["date", "hoursSpent"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date in YYYY-MM-DD format",
+            "example": "2022-01-09"
+          },
+          "hoursSpent": {
+            "type": "number",
+            "description": "Amount of working hours",
+            "example": 3
+          }
+        }
+      },
+
+      "AddWWorkingHoursByDayResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "response status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "response code",
+            "example": "200"
+          },
+          "task": {
+            "type": "object",
+            "description": "Updated Task",
+            "properties": {
+              "totalHours": {
+                "type": "number",
+                "description": "New total working hours",
+                "example": "3"
+              },
+              "hoursPerDay": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "amount of working hours per day",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "description": "working day",
+                      "example": "2021-07-07T00:00:00.000Z"
+                    },
+                    "totalHours": {
+                      "type": "number",
+                      "description": "how many working hours were spent this day",
+                      "example": "12"
+                    }
+                  }
+                }
+              },
+              "title": {
+                "type": "string",
+                "description": "task title",
+                "example": "My task"
+              },
+              "plannedHours": {
+                "type": "number",
+                "description": "amount of hours planned for the task",
+                "example": "12"
+              },
+              "id": {
+                "type": "string",
+                "description": "task id",
                 "example": "n3nldfivnrt45677563"
               }
             }
