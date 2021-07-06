@@ -1,10 +1,10 @@
 const Project = require('./schemas/project');
 
 const getAllPojects = async (userId, query) => {
-  const { limit = 5, offset = 0, sortBy, sortByDesc, filter } = query;
+  const { offset = 0, sortBy, sortByDesc, filter } = query;
   const optionsSearch = { team: userId };
   const results = await Project.paginate(optionsSearch, {
-    limit,
+    // limit,
     offset,
     select: filter ? filter.split('|').join(' ') : '',
     sort: {
@@ -13,7 +13,7 @@ const getAllPojects = async (userId, query) => {
     },
   });
   const { docs: projects, totalDocs: total } = results;
-  return { projects, total, limit, offset };
+  return { projects, total, offset };
 };
 
 const getProjectById = async (userId, projectId) => {

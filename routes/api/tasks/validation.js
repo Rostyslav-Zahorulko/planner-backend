@@ -9,7 +9,7 @@ const schemaCreateTask = Joi.object({
 
 const schemaUpdateTask = Joi.object({
   date: Joi.date().required(),
-  hoursSpent: Joi.number().integer().min(1).max(100000).required(),
+  hoursSpent: Joi.number().integer().min(0).max(100000).required(),
 });
 
 const validate = async (schema, body, next) => {

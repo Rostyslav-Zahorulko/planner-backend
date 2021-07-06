@@ -114,9 +114,10 @@ const patchTaskWorkingHoursByDay = async (
       _id,
     },
   );
-  const updatedTasks = tasks.filter(task => task._id != taskId);
-  updatedTasks.push(updatedTask);
-  currentSprint.tasks = updatedTasks;
+
+  const currentTaskIndex = tasks.findIndex(task => task._id == taskId);
+  tasks.splice(currentTaskIndex, 1, updatedTask);
+  console.log(currentSprint.tasks);
   await Project.findOneAndUpdate(
     {
       _id: projectId,
@@ -125,7 +126,7 @@ const patchTaskWorkingHoursByDay = async (
     { new: true },
   );
 
-  return updatedTasks;
+  return tasks;
 };
 
 module.exports = {
