@@ -57,16 +57,18 @@ const removeById = async (req, res, next) => {
 //  ADD AMOUNT OF WORKING HOURS BY DAY
 const addWorkingHoursByDay = async (req, res, next) => {
   try {
-    const task = await patchTaskWorkingHoursByDay(
+    const tasks = await patchTaskWorkingHoursByDay(
       req.params.projectId,
       req.params.sprintId,
       req.params.taskId,
       req.body,
     );
-    if (task) {
+
+    // console.log(tasks);
+    if (tasks) {
       return res
         .status(HttpCode.OK)
-        .json({ status: 'success', code: HttpCode.OK, task });
+        .json({ status: 'success', code: HttpCode.OK, tasks });
     }
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
