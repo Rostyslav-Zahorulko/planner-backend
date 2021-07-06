@@ -9,14 +9,14 @@ const guard = require('../../../helpers/guard');
 const { validateCreateTask, validateUpdateTask } = require('./validation');
 
 // CREATE TASK
-router.post('/:projectId/:sprintId', guard, validateCreateTask, create);
+router.post('/:projectId/sprints/:sprintId', guard, validateCreateTask, create);
 
 // REMOVE TASK BY ID
-router.delete('/:projectId/:sprintId/:taskId', guard, removeById);
+router.delete('/:projectId/sprints/:sprintId/:taskId', guard, removeById);
 
 // ADD AMOUNT OF WORKING HOURS BY DAY
 router.patch(
-  '/:projectId/:sprintId/:taskId',
+  '/:projectId/sprints/:sprintId/:taskId',
   guard,
   validateUpdateTask,
   addWorkingHoursByDay,
