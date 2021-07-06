@@ -10,17 +10,17 @@ const guard = require('../../../helpers/guard');
 const { validateCreateSprint, validateUpdateSprint } = require('./validation');
 
 // CREATE SPRINT
-router.post('/:projectId', guard, validateCreateSprint, create);
+router.post('/:projectId/sprints', guard, validateCreateSprint, create);
 
 // GET SPRINT BY ID
-router.get('/:projectId/:sprintId', guard, getById);
+router.get('/:projectId/sprints/:sprintId', guard, getById);
 
 // REMOVE SPRINT BY ID
-router.delete('/:projectId/:sprintId', guard, removeById);
+router.delete('/:projectId/sprints/:sprintId', guard, removeById);
 
 // UPDATE SPRINT TITLE BY ID
 router.patch(
-  '/:projectId/:sprintId',
+  '/:projectId/sprints/:sprintId',
   guard,
   validateUpdateSprint,
   patchTitleById,

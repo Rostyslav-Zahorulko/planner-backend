@@ -5,6 +5,7 @@ const {
   updateProject,
   updateProjectTitle,
   removeProject,
+  addMemberToProject,
 } = require('../model/projects');
 const HttpCode = require('../helpers/constants');
 
@@ -139,6 +140,28 @@ const remove = async (req, res, next) => {
   }
 };
 
+const add = async (req, res, next) => {
+  try {
+    const userEmail = req.body.email;
+    const projectId = req.params.projectId;
+    const data = await addMemberToProject(userEmail, projectId);
+    if (data) {
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data,
+      });
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
@@ -146,4 +169,5 @@ module.exports = {
   update,
   updateTitle,
   remove,
+  add,
 };
