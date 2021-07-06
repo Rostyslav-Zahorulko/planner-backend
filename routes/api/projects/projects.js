@@ -5,6 +5,7 @@ const {
   getById,
   create,
   // update,
+  add,
   updateTitle,
   remove,
 } = require('../../../controllers/projects');
@@ -12,11 +13,14 @@ const guard = require('../../../helpers/guard');
 const {
   validateCreateProject,
   validateUpdateProject,
+  validateAddUserIntoTeam,
 } = require('./validation');
 
 router.get('/', guard, getAll);
 
 router.post('/', guard, validateCreateProject, create);
+
+router.post('/:projectId', guard, validateAddUserIntoTeam, add);
 
 router.get('/:projectId', guard, getById);
 

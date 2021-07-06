@@ -10,6 +10,10 @@ const schemaUpdateProject = Joi.object({
   title: Joi.string().min(1).max(30).required(),
 });
 
+const schemaUpdateProjectTeam = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 const validate = async (schema, body, next) => {
   try {
     await schema.validateAsync(body);
@@ -25,4 +29,7 @@ module.exports.validateCreateProject = (req, _res, next) => {
 
 module.exports.validateUpdateProject = (req, _res, next) => {
   return validate(schemaUpdateProject, req.body, next);
+};
+module.exports.validateAddUserIntoTeam = (req, _res, next) => {
+  return validate(schemaUpdateProjectTeam, req.body, next);
 };

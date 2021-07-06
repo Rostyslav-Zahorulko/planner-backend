@@ -1,4 +1,5 @@
 const Project = require('./schemas/project');
+const User = require('./schemas/user');
 
 const getAllPojects = async (userId, query) => {
   const { offset = 0, sortBy, sortByDesc, filter } = query;
@@ -65,6 +66,17 @@ const removeProject = async (userId, projectId) => {
   return result;
 };
 
+const addMemberToProject = async (userEmail, projectId) => {
+  const user = await User.findOne({ email: userEmail });
+  if (!user) {
+    return;
+  }
+  await Project.updateOne({ _id: projectId }, { $push: { team: user._id } });
+  const updatedProject = await Project.findById(projectId);
+  const { team } = updatedProject;
+  return team;
+};
+
 module.exports = {
   getAllPojects,
   getProjectById,
@@ -72,4 +84,5 @@ module.exports = {
   updateProject,
   updateProjectTitle,
   removeProject,
+  addMemberToProject,
 };
