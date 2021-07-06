@@ -144,7 +144,10 @@ const addUser = async (req, res, next) => {
   try {
     const userEmail = req.body.email;
     const projectId = req.params.projectId;
+
     const data = await addMemberToProject(userEmail, projectId);
+    // console.log(data); Повертається масив id. Треба масив email.
+
     if (data) {
       return res.status(HttpCode.OK).json({
         status: 'success',
