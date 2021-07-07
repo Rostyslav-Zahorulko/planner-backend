@@ -145,8 +145,12 @@ const addUser = async (req, res, next) => {
     const userEmail = req.body.email;
     const projectId = req.params.projectId;
 
+    // console.log(userEmail);
+    // console.log(projectId);
+
     const data = await addMemberToProject(userEmail, projectId);
-    // console.log(data); Повертається масив id. Треба масив email.
+    // console.log(data);
+    // Повертається масив id.Треба масив email.
 
     if (data) {
       return res.status(HttpCode.OK).json({
@@ -155,10 +159,11 @@ const addUser = async (req, res, next) => {
         data,
       });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
-      message: 'Not found',
+      message: 'User with such email is not existed',
     });
   } catch (err) {
     next(err);
