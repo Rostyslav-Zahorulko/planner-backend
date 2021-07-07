@@ -78,7 +78,7 @@ const projectSchema = new Schema(
       required: [true, 'Description is required'],
     },
 
-    team: [{ type: SchemaTypes.ObjectId, ref: 'user' }],
+    team: [],
     sprints: [sprintSchema],
   },
   {
