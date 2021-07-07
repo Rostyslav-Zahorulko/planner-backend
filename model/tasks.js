@@ -84,7 +84,8 @@ const patchTaskWorkingHoursByDay = async (
     } else return false;
   }
 
-  const { totalHours, hoursPerDay, title, plannedHours, _id } = currentTask;
+  const { totalHours, hoursPerDay, title, _id } = currentTask;
+  let { plannedHours } = currentTask;
   const updatedHoursPerDay = hoursPerDay.map(obj => {
     if (compareDates(obj.date, body.date)) {
       const correctedDate = new Date(body.date);
@@ -104,6 +105,10 @@ const patchTaskWorkingHoursByDay = async (
     updatedTotalHours += updatedHoursPerDay[i].hoursSpent;
   }
 
+  if (plannedHours <= updatedTotalHours) {
+    plannedHours = updatedTotalHours;
+  }
+
   const updatedTask = Object.assign(
     {},
     {
@@ -117,7 +122,7 @@ const patchTaskWorkingHoursByDay = async (
 
   const currentTaskIndex = tasks.findIndex(task => task._id == taskId);
   tasks.splice(currentTaskIndex, 1, updatedTask);
-  console.log(currentSprint.tasks);
+  // console.log(currentSprint.tasks);
   await Project.findOneAndUpdate(
     {
       _id: projectId,
