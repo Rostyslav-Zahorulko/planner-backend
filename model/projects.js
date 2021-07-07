@@ -30,17 +30,17 @@ const createProject = async body => {
   return result;
 };
 
-const updateProject = async (userId, projectId, body) => {
-  const result = await Project.findOneAndUpdate(
-    {
-      _id: projectId,
-      team: userId,
-    },
-    { ...body },
-    { new: true },
-  );
-  return result;
-};
+// const updateProject = async (userId, projectId, body) => {
+//   const result = await Project.findOneAndUpdate(
+//     {
+//       _id: projectId,
+//       team: userId,
+//     },
+//     { ...body },
+//     { new: true },
+//   );
+//   return result;
+// };
 
 const updateProjectTitle = async (userId, projectId, body) => {
   const project = await Project.findById(projectId);
@@ -81,7 +81,7 @@ module.exports = {
   getAllPojects,
   getProjectById,
   createProject,
-  updateProject,
+  // updateProject,
   updateProjectTitle,
   removeProject,
   addMemberToProject,

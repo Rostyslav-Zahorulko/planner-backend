@@ -2,7 +2,7 @@ const {
   getAllPojects,
   getProjectById,
   createProject,
-  updateProject,
+  // updateProject,
   updateProjectTitle,
   removeProject,
   addMemberToProject,
@@ -69,30 +69,30 @@ const create = async (req, res, next) => {
   }
 };
 
-const update = async (req, res, next) => {
-  try {
-    const userId = req.user.id;
-    const projectWithId = await updateProject(
-      userId,
-      req.params.projectId,
-      req.body,
-    );
-    if (projectWithId) {
-      return res.status(HttpCode.OK).json({
-        status: 'success',
-        code: HttpCode.OK,
-        project: projectWithId,
-      });
-    }
-    return res.status(HttpCode.NOT_FOUND).json({
-      status: 'error',
-      code: HttpCode.NOT_FOUND,
-      message: 'Not found',
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+// const update = async (req, res, next) => {
+//   try {
+//     const userId = req.user.id;
+//     const projectWithId = await updateProject(
+//       userId,
+//       req.params.projectId,
+//       req.body,
+//     );
+//     if (projectWithId) {
+//       return res.status(HttpCode.OK).json({
+//         status: 'success',
+//         code: HttpCode.OK,
+//         project: projectWithId,
+//       });
+//     }
+//     return res.status(HttpCode.NOT_FOUND).json({
+//       status: 'error',
+//       code: HttpCode.NOT_FOUND,
+//       message: 'Not found',
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 const updateTitle = async (req, res, next) => {
   try {
@@ -174,7 +174,7 @@ module.exports = {
   getAll,
   getById,
   create,
-  update,
+  // update,
   updateTitle,
   remove,
   addUser,
