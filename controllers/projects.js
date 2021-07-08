@@ -168,7 +168,7 @@ const addUser = async (req, res, next) => {
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
-      message: 'User with such email is not existed',
+      message: 'User with such email doesn`t exist',
     });
   } catch (err) {
     next(err);
