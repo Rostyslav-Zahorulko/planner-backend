@@ -75,7 +75,7 @@ const addMemberToProject = async (userEmail, projectId) => {
   const [{ email }] = user;
   const currentProject = await Project.findById(projectId);
   if (currentProject.team.includes(userEmail)) {
-    throw Error('User with such email is already existed in team');
+    throw Error('User with such email already exists in team');
   }
 
   await Project.updateOne({ _id: projectId }, { $push: { team: email } });
