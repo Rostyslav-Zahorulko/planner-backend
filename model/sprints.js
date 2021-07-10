@@ -39,28 +39,17 @@ const removeSprintById = async (projectId, sprintId) => {
 
 const updateSprintById = async (projectId, sprintId, body) => {
   const project = await Project.findById(projectId);
-  const { sprints } = project;
-  let finalSprint = null;
-  const updatedSprints = await sprints.map(sprint => {
-    if (sprint._id == sprintId) {
-      const { _id, duration, startDate, tasks } = sprint;
-      const updatedSprint = Object.assign(
-        {},
-        { _id, ...body, duration, tasks, startDate },
-      );
-      finalSprint = Object.assign({}, updatedSprint);
-      return updatedSprint;
-    } else return sprint;
-  });
-
+  const projectSprints = project.sprints;
+  const currentSprint = project.sprints.id(sprintId);
+  currentSprint.title = body.title;
   await Project.findOneAndUpdate(
     {
       _id: projectId,
     },
-    { sprints: [...updatedSprints] },
+    { sprints: [...projectSprints] },
     { new: true },
   );
-  return finalSprint;
+  return currentSprint;
 };
 
 module.exports = {
