@@ -14,6 +14,7 @@ const schemaUpdateSprint = Joi.object({
 const validate = async (schema, body, next) => {
   try {
     await schema.validateAsync(body);
+
     next();
   } catch (err) {
     next({ status: HttpCode.BAD_REQUEST, message: err.message });

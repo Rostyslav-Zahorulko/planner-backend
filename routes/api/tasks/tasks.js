@@ -8,13 +8,10 @@ const {
 const guard = require('../../../helpers/guard');
 const { validateCreateTask, validateUpdateTask } = require('./validation');
 
-// CREATE TASK
 router.post('/:projectId/sprints/:sprintId', guard, validateCreateTask, create);
 
-// REMOVE TASK BY ID
 router.delete('/:projectId/sprints/:sprintId/:taskId', guard, removeById);
 
-// ADD AMOUNT OF WORKING HOURS BY DAY
 router.patch(
   '/:projectId/sprints/:sprintId/:taskId',
   guard,

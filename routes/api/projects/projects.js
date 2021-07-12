@@ -4,7 +4,6 @@ const {
   getAll,
   getById,
   create,
-  // update,
   addUser,
   updateTitle,
   remove,
@@ -23,9 +22,6 @@ router.post('/', guard, validateCreateProject, create);
 router.post('/:projectId', guard, validateAddUserIntoTeam, addUser);
 
 router.get('/:projectId', guard, getById);
-
-// ОН НЕ НУЖЕН, НУЖЕН ТОЛЬКО АПДЕЙТ НАЗВАНИЯ
-// router.patch('/:projectId', guard, validateUpdateProject, update);
 
 router.patch('/:projectId', guard, validateUpdateProject, updateTitle);
 

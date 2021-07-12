@@ -17,6 +17,7 @@ const schemaUpdateProjectTeam = Joi.object({
 const validate = async (schema, body, next) => {
   try {
     await schema.validateAsync(body);
+
     next();
   } catch (err) {
     next({ status: HttpCode.BAD_REQUEST, message: err.message });
@@ -30,6 +31,7 @@ module.exports.validateCreateProject = (req, _res, next) => {
 module.exports.validateUpdateProject = (req, _res, next) => {
   return validate(schemaUpdateProject, req.body, next);
 };
+
 module.exports.validateAddUserIntoTeam = (req, _res, next) => {
   return validate(schemaUpdateProjectTeam, req.body, next);
 };

@@ -38,6 +38,7 @@ app.use((_req, res) => {
 app.use((err, _req, res, _next) => {
   const status = err.status ? 'error' : 'fail';
   const statusCode = err.status || HttpCode.INTERNAL_SERVER_ERROR;
+
   res
     .status(statusCode)
     .json({ status, code: statusCode, message: err.message });

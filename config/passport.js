@@ -5,7 +5,7 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const { findById } = require('../model/users');
 
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Bearer JWT_TOKEN
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: JWT_SECRET_KEY,
 };
 
@@ -13,6 +13,7 @@ passport.use(
   new Strategy(opts, async (payload, done) => {
     try {
       const user = await findById(payload.id);
+
       if (!user) {
         return done(new Error('User not found'), false);
       }
