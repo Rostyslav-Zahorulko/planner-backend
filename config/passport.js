@@ -8,6 +8,7 @@ const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Bearer JWT_TOKEN
   secretOrKey: JWT_SECRET_KEY,
 };
+
 passport.use(
   new Strategy(opts, async (payload, done) => {
     try {
@@ -24,5 +25,5 @@ passport.use(
     } catch (err) {
       return done(err, false);
     }
-  })
+  }),
 );

@@ -2,7 +2,6 @@ const {
   getAllPojects,
   getProjectById,
   createProject,
-  // updateProject,
   updateProjectTitle,
   removeProject,
   addMemberToProject,
@@ -11,13 +10,13 @@ const HttpCode = require('../helpers/constants');
 
 const getAll = async (req, res, next) => {
   try {
-    // const userId = req.user.id;
     const email = req.user.email;
-    // console.log(userId);
+
     const { projects, total, limit, offset } = await getAllPojects(
       email,
       req.query,
     );
+
     return res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
@@ -35,10 +34,10 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    // const userId = req.user.id;
     const email = req.user.email;
-    console.log(email);
+
     const projectWithId = await getProjectById(email, req.params.projectId);
+
     if (projectWithId) {
       return res.status(HttpCode.OK).json({
         status: 'success',
@@ -46,6 +45,7 @@ const getById = async (req, res, next) => {
         project: projectWithId,
       });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -58,9 +58,9 @@ const getById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    // const userId = req.user.id;
     const email = req.user.email;
     const project = await createProject({ ...req.body, team: email });
+
     return res
       .status(HttpCode.CREATED)
       .json({ status: 'success', code: HttpCode.CREATED, project });
@@ -72,40 +72,15 @@ const create = async (req, res, next) => {
   }
 };
 
-// const update = async (req, res, next) => {
-//   try {
-//     const userId = req.user.id;
-//     const projectWithId = await updateProject(
-//       userId,
-//       req.params.projectId,
-//       req.body,
-//     );
-//     if (projectWithId) {
-//       return res.status(HttpCode.OK).json({
-//         status: 'success',
-//         code: HttpCode.OK,
-//         project: projectWithId,
-//       });
-//     }
-//     return res.status(HttpCode.NOT_FOUND).json({
-//       status: 'error',
-//       code: HttpCode.NOT_FOUND,
-//       message: 'Not found',
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 const updateTitle = async (req, res, next) => {
   try {
-    // const userId = req.user.id;
     const email = req.user.email;
     const project = await updateProjectTitle(
       email,
       req.params.projectId,
       req.body,
     );
+
     if (project) {
       return res.status(HttpCode.OK).json({
         status: 'success',
@@ -113,6 +88,7 @@ const updateTitle = async (req, res, next) => {
         project,
       });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -125,9 +101,9 @@ const updateTitle = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    // const userId = req.user.id;
     const email = req.user.email;
     const projectWithId = await removeProject(email, req.params.projectId);
+
     if (projectWithId) {
       return res.status(HttpCode.OK).json({
         status: 'success',
@@ -135,6 +111,7 @@ const remove = async (req, res, next) => {
         project: projectWithId,
       });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -149,13 +126,7 @@ const addUser = async (req, res, next) => {
   try {
     const userEmail = req.body.email;
     const projectId = req.params.projectId;
-
-    // console.log(userEmail);
-    // console.log(projectId);
-
     const data = await addMemberToProject(userEmail, projectId);
-    // console.log(data);
-    // Повертається масив id.Треба масив email.
 
     if (data) {
       return res.status(HttpCode.OK).json({
@@ -179,7 +150,6 @@ module.exports = {
   getAll,
   getById,
   create,
-  // update,
   updateTitle,
   remove,
   addUser,

@@ -5,7 +5,6 @@ const {
 } = require('../model/tasks');
 const HttpCode = require('../helpers/constants');
 
-// CREATE TASK
 const create = async (req, res, next) => {
   try {
     const data = await createTask(
@@ -21,6 +20,7 @@ const create = async (req, res, next) => {
         project: data,
       });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -31,7 +31,6 @@ const create = async (req, res, next) => {
   }
 };
 
-// REMOVE TASK BY ID
 const removeById = async (req, res, next) => {
   try {
     const data = await removeTaskById(
@@ -39,11 +38,13 @@ const removeById = async (req, res, next) => {
       req.params.sprintId,
       req.params.taskId,
     );
+
     if (data) {
       return res
         .status(HttpCode.OK)
         .json({ status: 'success', code: HttpCode.OK, project: data });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -54,7 +55,6 @@ const removeById = async (req, res, next) => {
   }
 };
 
-//  ADD AMOUNT OF WORKING HOURS BY DAY
 const addWorkingHoursByDay = async (req, res, next) => {
   try {
     const tasks = await patchTaskWorkingHoursByDay(
@@ -64,12 +64,12 @@ const addWorkingHoursByDay = async (req, res, next) => {
       req.body,
     );
 
-    // console.log(tasks);
     if (tasks) {
       return res
         .status(HttpCode.OK)
         .json({ status: 'success', code: HttpCode.OK, tasks });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,

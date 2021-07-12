@@ -5,9 +5,11 @@ const HttpCode = require('./constants');
 const guard = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
     let token = null;
+
     if (req.get('Authorization')) {
       token = req.get('Authorization').split(' ')[1];
     }
+
     if (!user || err || token !== user.token) {
       return res.status(HttpCode.UNAUTHORIZED).json({
         status: 'error',
@@ -15,7 +17,9 @@ const guard = (req, res, next) => {
         message: 'Access is denied',
       });
     }
-    req.user = user; // res.locals.user = user
+
+    req.user = user;
+
     return next();
   })(req, res, next);
 };

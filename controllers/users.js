@@ -12,6 +12,7 @@ const HttpCode = require('../helpers/constants');
 const signup = async (req, res, next) => {
   try {
     const user = await findByEmail(req.body.email);
+
     if (user) {
       return res.status(HttpCode.CONFLICT).json({
         status: 'error',
@@ -19,9 +20,9 @@ const signup = async (req, res, next) => {
         message: 'Email is already used',
       });
     }
+
     const newUser = await create(req.body);
     const { id, email } = newUser;
-
     const token = jwt.sign({ id }, JWT_SECRET_KEY, { expiresIn: '2h' });
     await updateToken(id, token);
 
@@ -42,7 +43,6 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
     const user = await findByEmail(email);
     const isValidPassword = await user?.validPassword(password);
 
@@ -53,9 +53,11 @@ const login = async (req, res, next) => {
         message: 'Invalid credentials',
       });
     }
+
     const payload = { id: user.id };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '2h' });
     await updateToken(user.id, token);
+
     return res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
@@ -72,6 +74,7 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, _next) => {
   await updateToken(req.user.id, null);
+
   return res.status(HttpCode.NO_CONTENT).json({});
 };
 
@@ -80,6 +83,7 @@ const currentUser = async (req, res, next) => {
     const userToken = req.user.token;
     const curUser = await findByToken(userToken);
     const { email } = curUser;
+
     if (curUser) {
       return res.status(HttpCode.OK).json({
         status: 'success',
@@ -89,6 +93,7 @@ const currentUser = async (req, res, next) => {
         },
       });
     }
+
     return res.status(HttpCode.UNAUTHORIZED).json({
       status: 'error',
       code: HttpCode.UNAUTHORIZED,

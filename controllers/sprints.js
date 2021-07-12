@@ -9,11 +9,13 @@ const HttpCode = require('../helpers/constants');
 const create = async (req, res, next) => {
   try {
     const data = await createSprint(req.params.projectId, req.body);
+
     if (data) {
       return res
         .status(HttpCode.CREATED)
         .json({ status: 'success', code: HttpCode.CREATED, data });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -24,7 +26,6 @@ const create = async (req, res, next) => {
   }
 };
 
-// GET SPRINT BY ID
 const getById = async (req, res, next) => {
   try {
     const sprint = await getSprintById(
@@ -37,6 +38,7 @@ const getById = async (req, res, next) => {
         .status(HttpCode.OK)
         .json({ status: 'success', code: HttpCode.OK, sprint });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -47,18 +49,19 @@ const getById = async (req, res, next) => {
   }
 };
 
-// REMOVE SPRINT BY ID
 const removeById = async (req, res, next) => {
   try {
     const data = await removeSprintById(
       req.params.projectId,
       req.params.sprintId,
     );
+
     if (data) {
       return res
         .status(HttpCode.OK)
         .json({ status: 'success', code: HttpCode.OK, sprints: data.sprints });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -69,7 +72,6 @@ const removeById = async (req, res, next) => {
   }
 };
 
-// UPDATE SPRINT TITLE BY ID
 const patchTitleById = async (req, res, next) => {
   try {
     const data = await updateSprintById(
@@ -77,11 +79,13 @@ const patchTitleById = async (req, res, next) => {
       req.params.sprintId,
       req.body,
     );
+
     if (data) {
       return res
         .status(HttpCode.OK)
         .json({ status: 'success', code: HttpCode.OK, sprint: data });
     }
+
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
@@ -92,4 +96,9 @@ const patchTitleById = async (req, res, next) => {
   }
 };
 
-module.exports = { create, getById, removeById, patchTitleById };
+module.exports = {
+  create,
+  getById,
+  removeById,
+  patchTitleById,
+};
