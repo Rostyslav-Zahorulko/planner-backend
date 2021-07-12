@@ -9,6 +9,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Password is required'],
     },
+
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -18,6 +19,7 @@ const userSchema = new Schema(
         return re.test(String(value).toLowerCase());
       },
     },
+
     token: {
       type: String,
       default: null,
@@ -25,7 +27,11 @@ const userSchema = new Schema(
 
     projects: [{ type: SchemaTypes.ObjectId, ref: 'project' }],
   },
-  { versionKey: false, timestamps: true },
+  {
+    versionKey: false,
+
+    timestamps: true,
+  },
 );
 
 userSchema.pre('save', async function (next) {
@@ -33,6 +39,7 @@ userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(SALT_FACTOR);
     this.password = await bcrypt.hash(this.password, salt);
   }
+
   next();
 });
 

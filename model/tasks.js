@@ -1,7 +1,6 @@
 const Project = require('./schemas/project');
 const { nanoid } = require('nanoid');
 
-// CREATING TASK
 const createTask = async (projectId, sprintId, body) => {
   const currentProject = await Project.findById(projectId);
   const projectSprints = currentProject.sprints;
@@ -12,11 +11,13 @@ const createTask = async (projectId, sprintId, body) => {
   function addDays(date, days) {
     const result = new Date(date);
     result.setDate(result.getDate() + days).toString();
+
     return result;
   }
 
   const daysArray = [];
   daysArray.length = duration;
+
   for (let i = 0; i < daysArray.length; i += 1) {
     daysArray[i] = {
       date: addDays(startDate, i),
@@ -28,6 +29,7 @@ const createTask = async (projectId, sprintId, body) => {
     {},
     { id: nanoid(), ...body, hoursPerDay: daysArray, startDate },
   );
+
   tasks.push(newTask);
 
   const result = await Project.findOneAndUpdate(
@@ -37,6 +39,7 @@ const createTask = async (projectId, sprintId, body) => {
     { sprints: [...projectSprints] },
     { new: true },
   );
+
   return result;
 };
 
@@ -48,9 +51,11 @@ const removeTaskById = async (projectId, sprintId, taskId) => {
 
   if (tasks) {
     const task = tasks.find(task => task._id == taskId);
+
     if (!task) {
       return;
     }
+
     const updatedTasks = tasks.filter(task => task._id != taskId);
     currentSprint.tasks = updatedTasks;
     const result = await Project.findOneAndUpdate(
@@ -60,6 +65,7 @@ const removeTaskById = async (projectId, sprintId, taskId) => {
       { sprints: [...projectSprints] },
       { new: true },
     );
+
     return result;
   }
 };
@@ -72,19 +78,19 @@ const patchTaskWorkingHoursByDay = async (
 ) => {
   const currentProject = await Project.findById(projectId);
   const projectSprints = currentProject.sprints;
-  const currentSprint = currentProject.sprints.id(sprintId);
   const tasks = currentProject.sprints.id(sprintId).tasks;
   const currentTask = currentProject.sprints.id(sprintId).tasks.id(taskId);
 
   function compareDates(d1, d2) {
     const date1 = new Date(d1);
     const date2 = new Date(d2);
+
     if (date1.getTime() == date2.getTime()) {
       return true;
     } else return false;
   }
 
-  const { totalHours, hoursPerDay, title, _id } = currentTask;
+  const { hoursPerDay, title, _id } = currentTask;
   let { plannedHours } = currentTask;
   const updatedHoursPerDay = hoursPerDay.map(obj => {
     if (compareDates(obj.date, body.date)) {
@@ -96,11 +102,13 @@ const patchTaskWorkingHoursByDay = async (
           date: correctedDate,
         },
       );
+
       return updatedBody;
     } else return obj;
   });
 
   let updatedTotalHours = 0;
+
   for (let i = 0; i < updatedHoursPerDay.length; i += 1) {
     updatedTotalHours += updatedHoursPerDay[i].hoursSpent;
   }
@@ -122,7 +130,6 @@ const patchTaskWorkingHoursByDay = async (
 
   const currentTaskIndex = tasks.findIndex(task => task._id == taskId);
   tasks.splice(currentTaskIndex, 1, updatedTask);
-  // console.log(currentSprint.tasks);
   await Project.findOneAndUpdate(
     {
       _id: projectId,

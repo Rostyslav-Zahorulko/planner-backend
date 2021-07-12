@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Schema, SchemaTypes } = mongoose;
+const { Schema } = mongoose;
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const taskSchema = new Schema(
@@ -8,6 +8,7 @@ const taskSchema = new Schema(
       type: String,
       required: [true, 'Title is required'],
     },
+
     plannedHours: {
       type: Number,
       required: true,
@@ -22,7 +23,11 @@ const taskSchema = new Schema(
   },
   {
     versionKey: false,
-    toObject: { virtuals: true },
+
+    toObject: {
+      virtuals: true,
+    },
+
     toJSON: {
       virtuals: true,
       transform: function (_doc, ret) {
@@ -55,7 +60,11 @@ const sprintSchema = new Schema(
   },
   {
     versionKey: false,
-    toObject: { virtuals: true },
+
+    toObject: {
+      virtuals: true,
+    },
+
     toJSON: {
       virtuals: true,
       transform: function (_doc, ret) {
@@ -73,18 +82,25 @@ const projectSchema = new Schema(
       type: String,
       required: [true, 'Title is required'],
     },
+
     description: {
       type: String,
       required: [true, 'Description is required'],
     },
 
     team: [],
+
     sprints: [sprintSchema],
   },
   {
     versionKey: false,
+
     timestamps: true,
-    toObject: { virtuals: true },
+
+    toObject: {
+      virtuals: true,
+    },
+
     toJSON: {
       virtuals: true,
       transform: function (_doc, ret) {
@@ -101,10 +117,7 @@ projectSchema.virtual('fullInf').get(function () {
 });
 
 projectSchema.plugin(mongoosePaginate);
+
 const Project = mongoose.model('project', projectSchema);
 
 module.exports = Project;
-// const Task = mongoose.model('task', taskSchema);
-// const Sprint = mongoose.model('sprint', sprintSchema);
-// module.exports = Sprint;
-// module.exports = Task;
